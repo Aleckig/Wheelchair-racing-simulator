@@ -1,48 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;  
 
 public class GameManager : MonoBehaviour
 {
-    // reference to player
-        [SerializeField] private GameObject player;
+    [SerializeField] private GameObject player;
+    private Objective objective;
 
+    private bool isGameOver;
 
-        // reference to player
-        private Objective objective;
-
-        private bool isGameOver;
-        public bool IsGameOver { get { return isGameOver; } }
-
-
-        // initialize references
-        private void Awake()
+    private void Awake()
+    {
+        objective = FindObjectOfType<Objective>();
+        if (objective == null)
         {
-            
-            objective = Object.FindObjectOfType<Objective>();
-            
+            Debug.LogError("Objective not found in the scene.");
         }
+    }
 
-        // end the level
-        public void EndLevel()
+    public void EndLevel()
+    {
+        if (!isGameOver)
         {
-           
-            // check if we have set IsGameOver to true, only run this logic once
-            if (isGameOver)
-            {
-                isGameOver = true;
-                
-            }
+            isGameOver = true;
+            LoadNextLevel();
+            Debug.Log("Level Complete");
         }
+    }
+    private void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    
+    private void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 
-        // check for the end game condition on each frame
-        private void Update()
+    private void Update()
+    {
+        if (objective != null)
         {
-            if (objective != null & objective.IsComplete)
+            if (objective.IsComplete)
             {
                 EndLevel();
             }
         }
+        else
+        {
+            Debug.LogError("Objective is null. Make sure the Objective script is attached to the appropriate object in the scene.");
+        }
+    }
 
     
 }
