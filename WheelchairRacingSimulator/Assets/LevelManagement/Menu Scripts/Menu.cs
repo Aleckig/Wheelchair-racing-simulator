@@ -23,15 +23,47 @@ namespace LevelManagement
         }
         public void OnSettingsPressed()
         {
-            Debug.Log("Settings");
+            MenuManager menuManager = FindObjectOfType<MenuManager>();
+            Menu settingsMenu = transform.parent.Find("SettingsMenu(Clone)").GetComponent<Menu>();
+
+            if (menuManager != null && settingsMenu != null)
+            {
+                menuManager.OpenMenu(settingsMenu);
+            }
+            else
+            {
+                Debug.LogError("Menu Manager or Settings Menu not found in the scene.");
+            }
+            //Debug.Log("Settings");
         }
         public void OnCreditsPressed()
         {
-            Debug.Log("Credits");
+            MenuManager menuManager = FindObjectOfType<MenuManager>();
+            Menu creditsMenu = transform.parent.Find("CreditsScreen(Clone)").GetComponent<Menu>();
+
+            if (menuManager != null && creditsMenu != null)
+            {
+                menuManager.OpenMenu(creditsMenu);
+            }
+            else
+            {
+                Debug.LogError("Menu Manager or Credits Menu not found in the scene.");
+            }
+            //Debug.Log("Credits");
         }
         public void OnBackPressed()
         {
-            Debug.Log("Back");
+            MenuManager menuManager = FindObjectOfType<MenuManager>();
+            if (menuManager != null)
+            {
+                menuManager.CloseMenu();
+
+                Debug.Log("Back");
+            }
+            else
+            {
+                Debug.LogError("Menu Manager not found in the scene.");
+            }
         }   
     }
 

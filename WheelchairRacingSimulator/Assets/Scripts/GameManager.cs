@@ -51,7 +51,7 @@ namespace WheelchairGame
             }
             else
             {
-                Debug.LogError("Objective is null. Make sure the Objective script is attached to the appropriate object in the scene.");
+                //Debug.LogError("Objective is null. Make sure the Objective script is attached to the appropriate object in the scene.");
             }
         }
 
