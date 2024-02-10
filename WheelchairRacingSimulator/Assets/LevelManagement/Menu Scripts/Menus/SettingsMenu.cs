@@ -4,30 +4,8 @@ using UnityEngine;
 
 namespace LevelManagement
 {
-    public class SettingsMenu : Menu
+    public class SettingsMenu : Menu<SettingsMenu>
     {
-        private static SettingsMenu instance;
-        public static SettingsMenu Instance { get { return instance; } }
-
-        private void Awake()
-        {
-            if (instance != null)
-            {
-                Destroy(gameObject);
-            }
-            else
-            {
-                instance = this;
-            }
-            
-        }
-
-        private void OnDestroy()
-        {
-            if (instance == this)
-            {
-                instance = null;
-            }
-        }
+        
     }
 }
