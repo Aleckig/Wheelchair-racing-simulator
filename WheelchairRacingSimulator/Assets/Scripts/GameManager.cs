@@ -3,55 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;  
 
-public class GameManager : MonoBehaviour
+namespace WheelchairGame
 {
-    [SerializeField] private GameObject player;
-    private Objective objective;
-
-    private bool isGameOver;
-
-    private void Awake()
+    public class GameManager : MonoBehaviour
     {
-        objective = FindObjectOfType<Objective>();
-        if (objective == null)
+        [SerializeField] private GameObject player;
+        private Objective objective;
+
+        private bool isGameOver;
+
+        private void Awake()
         {
-            Debug.LogError("Objective not found in the scene.");
-        }
-    }
-
-    public void EndLevel()
-    {
-        if (!isGameOver)
-        {
-            isGameOver = true;
-            LoadNextLevel();
-            Debug.Log("Level Complete");
-        }
-    }
-    public void ReloadLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-    
-    public void LoadNextLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-    }
-
-    private void Update()
-    {
-        if (objective != null)
-        {
-            if (objective.IsComplete)
+            objective = FindObjectOfType<Objective>();
+            if (objective == null)
             {
-                EndLevel();
+                Debug.LogError("Objective not found in the scene.");
             }
         }
-        else
+
+        public void EndLevel()
         {
-            Debug.LogError("Objective is null. Make sure the Objective script is attached to the appropriate object in the scene.");
+            if (!isGameOver)
+            {
+                isGameOver = true;
+                LoadNextLevel();
+                Debug.Log("Level Complete");
+            }
         }
+        public void ReloadLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        
+        public void LoadNextLevel()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
+
+        private void Update()
+        {
+            if (objective != null)
+            {
+                if (objective.IsComplete)
+                {
+                    EndLevel();
+                }
+            }
+            else
+            {
+                Debug.LogError("Objective is null. Make sure the Objective script is attached to the appropriate object in the scene.");
+            }
+        }
+
+        
     }
 
-    
 }
+
