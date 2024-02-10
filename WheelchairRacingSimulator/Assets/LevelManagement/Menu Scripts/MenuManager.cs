@@ -7,9 +7,9 @@ namespace LevelManagement
     
     public class MenuManager : MonoBehaviour
     {
-        public Menu mainMenuPrefab;
-        public Menu settingsMenuPrefab;
-        public Menu creditsMenuPrefab;
+        public MainMenu mainMenuPrefab;
+        public SettingsMenu settingsMenuPrefab;
+        public CreditScreen creditsMenuPrefab;
 
         [SerializeField] private Transform menuParent;
 
