@@ -10,10 +10,10 @@ namespace LevelManagement
     {
         public void OnPlayPressed()
         {
-            GameManager gameManager = FindObjectOfType<GameManager>();
-            if (gameManager != null)
+            
+            if (GameManager.Instance != null)
             {
-                gameManager.LoadNextLevel();
+                GameManager.Instance.LoadNextLevel();
             }
             else
             {
@@ -23,12 +23,12 @@ namespace LevelManagement
         }
         public void OnSettingsPressed()
         {
-            MenuManager menuManager = FindObjectOfType<MenuManager>();
+            
             Menu settingsMenu = transform.parent.Find("SettingsMenu(Clone)").GetComponent<Menu>();
 
-            if (menuManager != null && settingsMenu != null)
+            if (MenuManager.Instance != null && settingsMenu != null)
             {
-                menuManager.OpenMenu(settingsMenu);
+                MenuManager.Instance.OpenMenu(settingsMenu);
             }
             else
             {
@@ -38,12 +38,12 @@ namespace LevelManagement
         }
         public void OnCreditsPressed()
         {
-            MenuManager menuManager = FindObjectOfType<MenuManager>();
+            
             Menu creditsMenu = transform.parent.Find("CreditsScreen(Clone)").GetComponent<Menu>();
 
-            if (menuManager != null && creditsMenu != null)
+            if (MenuManager.Instance != null && creditsMenu != null)
             {
-                menuManager.OpenMenu(creditsMenu);
+                MenuManager.Instance.OpenMenu(creditsMenu);
             }
             else
             {
@@ -53,10 +53,10 @@ namespace LevelManagement
         }
         public void OnBackPressed()
         {
-            MenuManager menuManager = FindObjectOfType<MenuManager>();
-            if (menuManager != null)
+            
+            if (MenuManager.Instance != null)
             {
-                menuManager.CloseMenu();
+                MenuManager.Instance.CloseMenu();
 
                 Debug.Log("Back");
             }

@@ -14,10 +14,28 @@ namespace LevelManagement
         [SerializeField] private Transform menuParent;
 
         private Stack<Menu> menuStack = new Stack<Menu>();
+        private static MenuManager instance;
+        public static MenuManager Instance { get { return instance; } }
 
         private void Awake()
         {
+            if (instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                instance = this;
+            }
             InitializeMenus();
+        }
+
+        private void OnDestroy()
+        {
+            if (instance == this)
+            {
+                instance = null;
+            }
         }
 
         private void InitializeMenus()

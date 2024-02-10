@@ -12,12 +12,31 @@ namespace WheelchairGame
 
         private bool isGameOver;
 
+        private static GameManager instance;
+
+        public static GameManager Instance { get { return instance; } }
+
         private void Awake()
         {
+            if (instance != null)
+            {
+                Destroy(gameObject);
+            }
+            else
+            {
+                instance = this;
+            }
             objective = FindObjectOfType<Objective>();
             if (objective == null)
             {
                 Debug.LogError("Objective not found in the scene.");
+            }
+        }
+        private void OnDestroy()
+        {
+            if (instance == this)
+            {
+                instance = null;
             }
         }
 
