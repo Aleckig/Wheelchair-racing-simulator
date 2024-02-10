@@ -15,34 +15,15 @@ namespace LevelManagement
                 GameManager.Instance.LoadNextLevel();
             }
 
-            if (MenuManager.Instance != null && GameMenu.Instance != null)
-            {
-                MenuManager.Instance.OpenMenu(GameMenu.Instance);
-            }
+            GameMenu.Open();
         }
         public void OnSettingsPressed()
         {
-            if (MenuManager.Instance != null && SettingsMenu.Instance!= null)
-            {
-                MenuManager.Instance.OpenMenu(SettingsMenu.Instance);
-            }
-            else
-            {
-                Debug.LogError("Menu Manager or Settings Menu not found in the scene.");
-            }
-            //Debug.Log("Settings");
+            SettingsMenu.Open();
         }
         public void OnCreditsPressed()
         {
-            if (MenuManager.Instance != null && CreditScreen.Instance != null)
-            {
-                MenuManager.Instance.OpenMenu(CreditScreen.Instance);
-            }
-            else
-            {
-                Debug.LogError("Menu Manager or Credits Menu not found in the scene.");
-            }
-            //Debug.Log("Credits");
+            CreditScreen.Open();
         }
         public void OnQuitPressed()
         {

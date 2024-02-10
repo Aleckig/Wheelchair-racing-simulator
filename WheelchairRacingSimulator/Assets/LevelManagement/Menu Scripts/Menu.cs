@@ -25,6 +25,18 @@ namespace LevelManagement
                 instance = (T)this;
             }
         }
+        public static void Open()
+        {
+            if (MenuManager.Instance != null && instance != null)
+            {
+                MenuManager.Instance.OpenMenu(instance);
+            }
+            else
+            {
+                Debug.LogError("Menu Manager not found in the scene.");
+            }
+            
+        }
 
         // OnDestroy is called when the MonoBehaviour will be destroyed
         protected virtual void OnDestroy()

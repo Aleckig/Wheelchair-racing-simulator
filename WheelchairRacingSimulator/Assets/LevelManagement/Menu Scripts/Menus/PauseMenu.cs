@@ -29,20 +29,13 @@ namespace LevelManagement
             Time.timeScale = 1;
             SceneManager.LoadScene(mainMenuIndex);
 
-            if(MenuManager.Instance != null && MainMenu.Instance != null)
-            {
-                MenuManager.Instance.OpenMenu(MainMenu.Instance);
-            }
-            else
-            {
-                Debug.LogError("Menu Manager or Main Menu not found in the scene.");
-            }
+            MainMenu.Open();
            
               
         }
         public void OnSettingsPressend()
         {
-            //SettingsMenu.Open();
+            SettingsMenu.Open();
         }
 
         public void OnQuitPressed()
