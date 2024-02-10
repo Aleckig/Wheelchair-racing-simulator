@@ -28,12 +28,12 @@ public class GameManager : MonoBehaviour
             Debug.Log("Level Complete");
         }
     }
-    private void ReloadLevel()
+    public void ReloadLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
