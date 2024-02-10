@@ -1226,7 +1226,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -664525277267253732}
-        m_TargetAssemblyTypeName: LevelManagement.Menu, Assembly-CSharp
+        m_TargetAssemblyTypeName: LevelManagement.MainMenu, Assembly-CSharp
         m_MethodName: OnPlayPressed
         m_Mode: 1
         m_Arguments:

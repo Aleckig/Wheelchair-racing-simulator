@@ -10,6 +10,8 @@ namespace LevelManagement
         public MainMenu mainMenuPrefab;
         public SettingsMenu settingsMenuPrefab;
         public CreditScreen creditsMenuPrefab;
+        public PauseMenu pauseMenuPrefab;
+        public GameMenu gameMenuPrefab;
 
         [SerializeField] private Transform menuParent;
 
@@ -26,8 +28,10 @@ namespace LevelManagement
             else
             {
                 instance = this;
+                InitializeMenus();
+                Object.DontDestroyOnLoad(gameObject);
             }
-            InitializeMenus();
+            
         }
 
         private void OnDestroy()
@@ -47,9 +51,10 @@ namespace LevelManagement
                 GameObject menuParentObject = new GameObject("Menus");
                 menuParent = menuParentObject.transform;
             }
+            DontDestroyOnLoad(menuParent.gameObject);
 
             // Array of menu prefabs
-            Menu[] menuPrefabs = { mainMenuPrefab, settingsMenuPrefab, creditsMenuPrefab }; 
+            Menu[] menuPrefabs = { mainMenuPrefab, settingsMenuPrefab, creditsMenuPrefab, pauseMenuPrefab, gameMenuPrefab}; 
             
             // Instantiate and initialize each menu
             foreach (Menu prefab in menuPrefabs)
