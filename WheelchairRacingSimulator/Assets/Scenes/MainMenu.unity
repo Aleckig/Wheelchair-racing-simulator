@@ -245,6 +245,8 @@ MonoBehaviour:
     type: 3}
   gameMenuPrefab: {fileID: 3262136131014839846, guid: 2e9efbc38f0badb4b9850f06d7e065b4,
     type: 3}
+  winScreenPrefab: {fileID: 6124229235852146867, guid: 16624bfea10bef443a3fe2a620025e85,
+    type: 3}
   menuParent: {fileID: 0}
 --- !u!1 &431233810
 GameObject:

@@ -17,7 +17,7 @@ namespace WheelchairGame
 
         public static GameManager Instance { get { return instance; } }
 
-        [SerializeField] int MainMenuIndex = 0;
+        
 
         private void Awake()
         {
@@ -48,35 +48,9 @@ namespace WheelchairGame
             if (!isGameOver)
             {
                 isGameOver = true;
-                LoadNextLevel();
+                WinScreen.Open();
                 Debug.Log("Level Complete");
             }
-        }
-        private void LoadLevel(int levelIndex)
-        {
-            if (levelIndex >= 0 && levelIndex < SceneManager.sceneCountInBuildSettings)
-            {
-                if(levelIndex == MainMenuIndex )
-                {
-                    MainMenu.Open();
-                }
-                SceneManager.LoadScene(levelIndex);
-                
-                
-            }
-            else
-            {
-                Debug.LogError("Invalid scene index.");
-            }
-        }
-        public void ReloadLevel()
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        
-        public void LoadNextLevel()
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
         private void Update()
