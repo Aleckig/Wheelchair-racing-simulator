@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 
 namespace LevelManagement
 {
     
     public class MenuManager : MonoBehaviour
     {
-        public MainMenu mainMenuPrefab;
-        public SettingsMenu settingsMenuPrefab;
-        public CreditScreen creditsMenuPrefab;
-        public PauseMenu pauseMenuPrefab;
-        public GameMenu gameMenuPrefab;
-        public WinScreen winScreenPrefab;   
+        [SerializeField] private MainMenu mainMenuPrefab;
+        [SerializeField] private SettingsMenu settingsMenuPrefab;
+        [SerializeField] private CreditScreen creditsMenuPrefab;
+        [SerializeField] private PauseMenu pauseMenuPrefab;
+        [SerializeField] private GameMenu gameMenuPrefab;
+        [SerializeField] private WinScreen winScreenPrefab;   
 
         [SerializeField] private Transform menuParent;
 
@@ -55,11 +56,15 @@ namespace LevelManagement
             DontDestroyOnLoad(menuParent.gameObject);
 
             // Array of menu prefabs
-            Menu[] menuPrefabs = { mainMenuPrefab, settingsMenuPrefab, creditsMenuPrefab, pauseMenuPrefab, gameMenuPrefab, winScreenPrefab}; 
+            //Menu[] menuPrefabs = { mainMenuPrefab, settingsMenuPrefab, creditsMenuPrefab, pauseMenuPrefab, gameMenuPrefab, winScreenPrefab}; 
+            System.Type myType = this.GetType();
+            BindingFlags myFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+            FieldInfo[] fields = myType.GetFields(myFlags);
             
             // Instantiate and initialize each menu
-            foreach (Menu prefab in menuPrefabs)
+            foreach (FieldInfo field in fields)
             {
+                Menu prefab = field.GetValue(this) as Menu;
                 if (prefab != null)
                 {
                     // Instantiate the menu prefab
@@ -76,6 +81,7 @@ namespace LevelManagement
                     }
                 }
             }
+            
         }
 
         public void OpenMenu(Menu menuInstance)
