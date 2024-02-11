@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;  
 
@@ -8,7 +9,7 @@ namespace LevelManagement
 {
     public class LevelLoader : MonoBehaviour
     {
-        private static int mainMenuIndex = 0;
+        private static int mainMenuIndex = 1;
 
 
         public static void LoadLevel(string levelName)
@@ -49,6 +50,7 @@ namespace LevelManagement
         {
             int nextSceneIndex = (SceneManager.GetActiveScene().buildIndex + 1)
                 % SceneManager.sceneCountInBuildSettings;
+            nextSceneIndex = Mathf.Clamp(nextSceneIndex, mainMenuIndex, nextSceneIndex);
             LoadLevel(nextSceneIndex);
 
         }

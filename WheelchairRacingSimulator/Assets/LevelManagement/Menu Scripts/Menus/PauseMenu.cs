@@ -8,7 +8,6 @@ namespace LevelManagement
 {
     public class PauseMenu : Menu<PauseMenu>
     {
-        [SerializeField] private int mainMenuIndex = 0 ;
          public void OnResumePressed()
         {
             Time.timeScale = 1;
@@ -27,7 +26,7 @@ namespace LevelManagement
         {
             
             Time.timeScale = 1;
-            SceneManager.LoadScene(mainMenuIndex);
+            LevelLoader.LoadMainMenuLevel();
 
             MainMenu.Open();
            
