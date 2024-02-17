@@ -55,6 +55,10 @@ namespace LevelManagement
         public override void OnBackPressed()
         {
             base.OnBackPressed();
+            if (dataManager != null)
+            {
+                dataManager.Save();
+            }
         }
 
         public void LoadData()
@@ -63,6 +67,7 @@ namespace LevelManagement
             {
                 return;
             }
+            dataManager.Load();
             
                 
             
