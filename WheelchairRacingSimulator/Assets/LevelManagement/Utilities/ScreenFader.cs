@@ -4,16 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ScreenFader : MonoBehaviour
 {
-    [SerializeField] private float solidAlpha = 1f;
-    [SerializeField] private float clearAlpha = 0f;
-    [SerializeField] private float fadeDuration = 2f;
+    [SerializeField] protected float solidAlpha = 1f;
+    [SerializeField] protected float clearAlpha = 0f;
+    
+    [SerializeField] private float fadeOnDuration = 2f;
+    public float FadeOnDuration { get { return fadeOnDuration; } }
 
-    public float FadeDuration { get { return fadeDuration; } }
+    [SerializeField] private float fadeOffDuration = 2f;
+    public float FadeOffDuration { get { return fadeOffDuration; } }
 
 
     [SerializeField] private MaskableGraphic[] graphicsTOFade;
 
-    private void setAlpha(float alpha)
+    protected void setAlpha(float alpha)
     {
         foreach (MaskableGraphic graphic in graphicsTOFade)
         {
@@ -39,13 +42,13 @@ public class ScreenFader : MonoBehaviour
     public void FadeOff()
     {
         setAlpha(solidAlpha);
-        Fade(clearAlpha, fadeDuration);
+        Fade(clearAlpha, fadeOffDuration);
     }
 
     public void FadeOn()
     {
         setAlpha(clearAlpha);
-        Fade(solidAlpha, fadeDuration);
+        Fade(solidAlpha, fadeOnDuration);
     }
    
 }
