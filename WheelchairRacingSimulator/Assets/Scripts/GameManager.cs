@@ -17,6 +17,7 @@ namespace WheelchairGame
 
         public static GameManager Instance { get { return instance; } }
 
+        [SerializeField] private TransitionFader endTransitionPrefab;
         
 
         private void Awake()
@@ -48,9 +49,19 @@ namespace WheelchairGame
             if (!isGameOver)
             {
                 isGameOver = true;
-                WinScreen.Open();
+                StartCoroutine(WinRoutine());
                 Debug.Log("Level Complete");
             }
+        }
+
+        private IEnumerator WinRoutine()
+        {
+            
+            TransitionFader.PlayTransition(endTransitionPrefab);
+            
+            float fadeDelay =(endTransitionPrefab != null) ? endTransitionPrefab.Delay + endTransitionPrefab.FadeOnDuration : 0f;
+            yield return new WaitForSeconds(fadeDelay);
+            WinScreen.Open();
         }
 
         private void Update()

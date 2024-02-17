@@ -575,6 +575,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 819258917}
+  endTransitionPrefab: {fileID: 3766907469380713769, guid: b2f4296204b0bba43a28f435c1882057,
+    type: 3}
+  endDelay: 0.5
 --- !u!4 &988079419
 Transform:
   m_ObjectHideFlags: 0
