@@ -16,7 +16,7 @@ public class ScreenFader : MonoBehaviour
 
     [SerializeField] private MaskableGraphic[] graphicsTOFade;
 
-    protected void setAlpha(float alpha)
+    protected void SetAlpha(float alpha)
     {
         foreach (MaskableGraphic graphic in graphicsTOFade)
         {
@@ -41,13 +41,13 @@ public class ScreenFader : MonoBehaviour
 
     public void FadeOff()
     {
-        setAlpha(solidAlpha);
+        SetAlpha(solidAlpha);
         Fade(clearAlpha, fadeOffDuration);
     }
 
     public void FadeOn()
     {
-        setAlpha(clearAlpha);
+        SetAlpha(clearAlpha);
         Fade(solidAlpha, fadeOnDuration);
     }
    

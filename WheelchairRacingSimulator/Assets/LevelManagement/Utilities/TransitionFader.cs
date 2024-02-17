@@ -7,7 +7,7 @@ public class TransitionFader : ScreenFader
 {
     [SerializeField] private float lifeTime = 1f;
     [SerializeField] private float delay = 0.3f;
-    public float Delay { get { return delay; } }
+    public float Delay { get { return delay; } }                                                
 
     protected void Awake()
     {
@@ -17,7 +17,7 @@ public class TransitionFader : ScreenFader
 
     private IEnumerator PlayRoutine()
     {
-        setAlpha(clearAlpha);
+        SetAlpha(clearAlpha);
 
         yield return new WaitForSeconds(delay);
 
