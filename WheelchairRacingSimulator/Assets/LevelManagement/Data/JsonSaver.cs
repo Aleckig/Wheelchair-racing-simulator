@@ -11,139 +11,138 @@ namespace LevelManagement.Data
    // The class responsible for saving and loading game data in JSON format
     public class JsonSaver
     {
-        // The filename for saving and loading data
-        private static readonly string filename = "saveData1.sav";
+         
+        // default filename
+        private static readonly string _filename = "saveData1.sav";
 
-        // Get the full path of the save file
+        // returns filename with fullpath
         public static string GetSaveFilename()
         {
-            return Application.persistentDataPath + "/" + filename;
+            return Application.persistentDataPath + "/" + _filename;
         }
 
-        // Save method that takes a SaveData object as input
+        // convert the SaveData to JSON format and write to disk
         public void Save(SaveData data)
         {
+            // reset the hash value
             data.hashValue = String.Empty;
-            // Convert the SaveData object to a JSON string
+
+            // convert the data to a JSON-formatted string
             string json = JsonUtility.ToJson(data);
-            string hashString = GetSHA256(json);
+
+            // generate a hash value as a hexidecimal string and store in SaveData 
+            data.hashValue = GetSHA256(json);
+
+            // convert the data to JSON again (to add the hash string)
             json = JsonUtility.ToJson(data);
 
-            // Get the full path of the save file
+            // reference to filename with full path
             string saveFilename = GetSaveFilename();
 
-            // Open a file stream for writing
-            FileStream fileStream = new FileStream(saveFilename, FileMode.Create);
+            // create the file
+            FileStream filestream = new FileStream(saveFilename, FileMode.Create);
 
-            // Use a StreamWriter to write the JSON string to the file
-            using (StreamWriter writer = new StreamWriter(fileStream))
+            // open file, write to file and close file
+            using (StreamWriter writer = new StreamWriter(filestream))
             {
                 writer.Write(json);
             }
-
-            // The file stream will be closed automatically when leaving this block
         }
 
-        // Load method that takes a SaveData object as input and returns a boolean indicating success
+        // load the data from disk and overwrite the contents of SaveData object
         public bool Load(SaveData data)
         {
-            // Get the full path of the save file
+            // reference to filename
             string loadFilename = GetSaveFilename();
 
-            // Check if the file exists
+            // only run if we find the filename on disk
             if (File.Exists(loadFilename))
             {
-                // Open a file stream for reading
+                // open the file and prepare to read
                 using (StreamReader reader = new StreamReader(loadFilename))
                 {
-                    // Read the entire content of the file as a JSON string
+                    // read the file as a string
                     string json = reader.ReadToEnd();
 
-                    //Check if the hash value is correct
-                    if(CheckData(json))
+                    // verify the data using the hash value
+                    if (CheckData(json))
                     {
-                        // Deserialize the JSON string into the provided SaveData object
+                        // read the data and overwrite the save data if the hash is valid
                         JsonUtility.FromJsonOverwrite(json, data);
                     }
+                    // hash is invalid
                     else
                     {
-                        Debug.LogWarning("Integrity check failed. The data may be corrupted.");
+                        Debug.LogWarning("JSONSAVER Load: invalid hash.  Aborting file read...");
                     }
-
-                    
                 }
-
-                // Return true indicating successful loading
                 return true;
             }
-
-            // Return false indicating that the file does not exist
             return false;
         }
-        // This method checks the integrity of a JSON string by comparing its hash values before and after modification.
 
-        // Define a private method named CheckData that takes a string parameter 'json'.
+        // verifies if a save file has a valid hash
         private bool CheckData(string json)
         {
-            // Create a new instance of the SaveData class to store temporary data.
+            // create a temporary SaveData object to store the data
             SaveData tempSaveData = new SaveData();
 
-            // Deserialize the input JSON string and overwrite the contents of tempSaveData.
+            // read the data into the temp SaveData object
             JsonUtility.FromJsonOverwrite(json, tempSaveData);
 
-            // Store the original hash value from tempSaveData in the variable 'oldHash'.
+            // grab the saved hash value and reset
             string oldHash = tempSaveData.hashValue;
+            tempSaveData.hashValue = String.Empty;
 
-            // Clear the hashValue property in tempSaveData to prepare for re-calculation.
-            tempSaveData.hashValue = string.Empty;
-
-            // Serialize tempSaveData to JSON without the hashValue property to create a modified JSON string.
+            // generate a temporary JSON file with the hash reset to empty
             string tempJson = JsonUtility.ToJson(tempSaveData);
 
-            // Calculate the SHA256 hash of the modified JSON string.
+            // calculate the hash 
             string newHash = GetSHA256(tempJson);
 
-            // Compare the original hash value with the newly calculated hash value.
-            // If they match, the data integrity is considered intact, and the method returns true.
+            // return whether the old and new hash values match
             return (oldHash == newHash);
         }
 
-
-        // Delete method to delete the save file
+        // deletes the save file from disk (useful for testing)
         public void Delete()
         {
-            // Delete the save file
             File.Delete(GetSaveFilename());
         }
+
+        // converts an array of bytes into a hexidecimal string 
         public string GetHexStringFromHash(byte[] hash)
         {
-            string hexString = string.Empty;
+            // placeholder string
+            string hexString = String.Empty;
+
+            // convert each byte to a two-digit hexidecimal number and add to placeholder
             foreach (byte b in hash)
             {
                 hexString += b.ToString("x2");
             }
+
+            // return the concatenated hexidecimal string
             return hexString;
         }
 
-        // This method calculates the SHA256 hash of a given text and returns the result as a hexadecimal string.
-
-        // Define a private method named GetSHA256 that takes a string parameter 'text'.
+        // converts a string into a SHA256 hash value
         private string GetSHA256(string text)
         {
-            // Convert the input text to a byte array using UTF-8 encoding.
+            // conver the text into an array of bytes
             byte[] textToBytes = Encoding.UTF8.GetBytes(text);
 
-            // Create an instance of SHA256Managed to perform the SHA256 hashing.
+            // create a temporary SHA256Managed instance
             SHA256Managed mySHA256 = new SHA256Managed();
 
-            // Compute the hash value of the byte array using SHA256.
+            // calculate the hash value as an array of bytes
             byte[] hashValue = mySHA256.ComputeHash(textToBytes);
 
-            // Convert the byte array hash value to a hexadecimal string.
-            // The GetHexStringFromHash method is assumed to be implemented elsewhere.
+            // convert to a hexidecimal string and return
             return GetHexStringFromHash(hashValue);
         }
-
     }
-
 }
+    
+
+
