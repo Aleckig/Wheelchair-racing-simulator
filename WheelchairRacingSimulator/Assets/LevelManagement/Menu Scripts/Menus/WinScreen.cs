@@ -11,7 +11,7 @@ namespace LevelManagement
         {
             //change this later
             base.OnBackPressed();
-            LevelLoader.LoadNextLevel();
+            ModeSelectMenu.Open();
         }
 
         public void OnRestartPressed()

@@ -31,10 +31,7 @@ namespace LevelManagement
             {
                 MenuManager.Instance.OpenMenu(instance);
             }
-            else
-            {
-                Debug.LogError("Menu Manager not found in the scene.");
-            }
+           
             
         }
 

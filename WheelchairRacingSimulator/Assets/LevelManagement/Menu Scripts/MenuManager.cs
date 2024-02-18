@@ -8,69 +8,94 @@ namespace LevelManagement
     
     public class MenuManager : MonoBehaviour
     {
-        [SerializeField] private MainMenu mainMenuPrefab;
-        [SerializeField] private SettingsMenu settingsMenuPrefab;
-        [SerializeField] private CreditScreen creditsMenuPrefab;
-        [SerializeField] private PauseMenu pauseMenuPrefab;
-        [SerializeField] private GameMenu gameMenuPrefab;
-        [SerializeField] private WinScreen winScreenPrefab;   
+        // define all Menu prefabs here and assign in the Inspector
+        [SerializeField]
+        private  MainMenu mainMenuPrefab;
+        [SerializeField]
+        private SettingsMenu settingsMenuPrefab;
+        [SerializeField]
+        private CreditScreen creditsScreenPrefab;
+        [SerializeField]
+        private GameMenu gameMenuPrefab;
+        [SerializeField]
+        private PauseMenu pauseMenuPrefab;
+        [SerializeField]
+        private WinScreen winScreenPrefab;
+        [SerializeField]
+        private ModeSelectMenu levelSelectMenuPrefab;
 
-        [SerializeField] private Transform menuParent;
 
-        private Stack<Menu> menuStack = new Stack<Menu>();
-        private static MenuManager instance;
-        public static MenuManager Instance { get { return instance; } }
+        // transform for organizing your Menus, defaults to Menus object
+        [SerializeField]
+        private Transform _menuParent;
+
+        // stack for tracking our active Menus
+        private Stack<Menu> _menuStack = new Stack<Menu>();
+
+        // single instance
+        private static MenuManager _instance;
+        public static MenuManager Instance { get { return _instance; } }
+
 
         private void Awake()
         {
-            if (instance != null)
+            // self-destruct if a MenuManager instance already exists
+            if (_instance != null)
             {
                 Destroy(gameObject);
             }
             else
             {
-                instance = this;
+                // otherwise, assign this object as the Singleton instance
+                _instance = this;
+
+                // initialize Menus and make this GameObject persistent
                 InitializeMenus();
-                Object.DontDestroyOnLoad(gameObject);
+                DontDestroyOnLoad(gameObject);
             }
-            
         }
 
+        // remove Singleton instance if this object is destroyed
         private void OnDestroy()
         {
-            if (instance == this)
+            if (_instance == this)
             {
-                instance = null;
+                _instance = null;
             }
         }
 
+        // create the Menus at the start of the game
         private void InitializeMenus()
         {
-            // Check if menuParent is not assigned in the Inspector
-            if (menuParent == null)
-            {
-                // Create a new GameObject to serve as the parent for menus
-                GameObject menuParentObject = new GameObject("Menus");
-                menuParent = menuParentObject.transform;
-            }
-            DontDestroyOnLoad(menuParent.gameObject);
 
-            // Array of menu prefabs
-            //Menu[] menuPrefabs = { mainMenuPrefab, settingsMenuPrefab, creditsMenuPrefab, pauseMenuPrefab, gameMenuPrefab, winScreenPrefab}; 
-            System.Type myType = this.GetType();
-            BindingFlags myFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-            FieldInfo[] fields = myType.GetFields(myFlags);
-            
-            // Instantiate and initialize each menu
+            // generate a default parent object if none specified
+            if (_menuParent == null)
+            {
+                GameObject menuParentObject = new GameObject("Menus");
+                _menuParent = menuParentObject.transform;
+            }
+
+            // mark the parent object as persistent
+            DontDestroyOnLoad(_menuParent.gameObject);
+
+            // use reflection to locate the Menu prefab fields defined at the top
+            BindingFlags myFlags = BindingFlags.Instance | BindingFlags.NonPublic | 
+                                               BindingFlags.DeclaredOnly;
+            FieldInfo[] fields = this.GetType().GetFields(myFlags);
+
+            // loop through the fields
             foreach (FieldInfo field in fields)
             {
+                // locate the prefab from each field
                 Menu prefab = field.GetValue(this) as Menu;
+
+                // if we find a prefab...
                 if (prefab != null)
                 {
-                    // Instantiate the menu prefab
-                    Menu menuInstance = Instantiate(prefab, menuParent);
+                    // ... instantiate it
+                    Menu menuInstance = Instantiate(prefab, _menuParent);
 
-                    // Check if the menu is not the main menu, then deactivate it
+                    // disable the Menu object unless it is the MainMenu
                     if (prefab != mainMenuPrefab)
                     {
                         menuInstance.gameObject.SetActive(false);
@@ -81,49 +106,49 @@ namespace LevelManagement
                     }
                 }
             }
-            
         }
 
+        // open a Menu and add to the Menu stack
         public void OpenMenu(Menu menuInstance)
         {
             if (menuInstance == null)
             {
-                Debug.LogWarning("MENUMANAGER OpenMenu <<invalid menu>>");
+                Debug.Log("MENUMANAGER OpenMenu ERROR: invalid menu");
                 return;
             }
 
-            // Deactivate the top menu on the stack if it exists
-            if (menuStack.Count > 0)
+            // disable all of the previous menus in the stack
+            if (_menuStack.Count > 0)
             {
-                foreach (Menu menu in menuStack)
+                foreach (Menu menu in _menuStack)
                 {
                     menu.gameObject.SetActive(false);
                 }
             }
 
-            // Activate the new menu
+            // activate the Menu and add to the top of the Menu stack
             menuInstance.gameObject.SetActive(true);
-
-            // Push the new menu onto the stack
-            menuStack.Push(menuInstance);
+            _menuStack.Push(menuInstance);
         }
 
+        // close a Menu and remove it from the Menu stack
         public void CloseMenu()
         {
-            if (menuStack.Count == 0)
+            // if the stack is empty, do nothing
+            if (_menuStack.Count == 0)
             {
-                Debug.LogWarning("MENUMANAGER CloseMenu <<no menus in stack>>");
+                Debug.LogWarning("MENUMANAGER CloseMenu ERROR: No menus in stack!");
                 return;
             }
 
-            // Deactivate the top menu on the stack
-            Menu topMenu = menuStack.Pop();
+            // remove the top Menu and disable
+            Menu topMenu = _menuStack.Pop();
             topMenu.gameObject.SetActive(false);
 
-            // Activate the new top menu on the stack
-            if (menuStack.Count > 0)
+            // enable the next Menu revealed at the top of the Menu stack
+            if (_menuStack.Count > 0)
             {
-                Menu nextMenu = menuStack.Peek();
+                Menu nextMenu = _menuStack.Peek();
                 nextMenu.gameObject.SetActive(true);
             }
         }
