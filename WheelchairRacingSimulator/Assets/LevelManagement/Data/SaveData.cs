@@ -9,6 +9,7 @@ namespace LevelManagement.Data
     {
         public string playerName;
         private readonly string defaultName = "Player";
+        public string hashValue;
 
         public float masterVolume;
         public float musicVolume;
@@ -20,6 +21,7 @@ namespace LevelManagement.Data
 
         public SaveData()
         {
+            hashValue = string.Empty;
             playerName = defaultName;
             masterVolume = 0.5f;
             musicVolume = 0.5f;
