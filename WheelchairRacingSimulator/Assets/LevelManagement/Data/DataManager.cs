@@ -12,6 +12,7 @@ namespace LevelManagement.Data
         public float MasterVolume { get { return saveData.masterVolume; } set { saveData.masterVolume = value; } }
         public float MusicVolume { get { return saveData.musicVolume; } set { saveData.musicVolume = value; } }
         public float SFXVolume { get { return saveData.sfxVolume; } set { saveData.sfxVolume = value; } }
+        public string PlayerName { get { return saveData.playerName; } set { saveData.playerName = value; } }
 
         private void Awake()
         {
