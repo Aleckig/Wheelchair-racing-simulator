@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;  
 using LevelManagement;
 using TMPro;
+using WheelchairGame;   
 
 namespace WheelchairGame
 {
@@ -31,8 +32,10 @@ namespace WheelchairGame
 
         // Timer variables
         [SerializeField] private TextMeshProUGUI timerText;
-        private float timer;
+        public float timer;
+        public float Timer => timer;
         [SerializeField] private TestMovement testMovement;
+        public float CurrentTimer => timer;
 
         // Singleton instance property
         public static GameManager Instance { get { return instance; } }
@@ -141,7 +144,26 @@ namespace WheelchairGame
 
             float fadeDelay = (endTransitionPrefab != null) ? endTransitionPrefab.Delay + endTransitionPrefab.FadeOnDuration : 0f;
             yield return new WaitForSeconds(fadeDelay);
-            WinScreen.Open();
+
+            // Access the WinScreen prefab from the MenuManager
+            WinScreen winScreenPrefab = MenuManager.Instance.winScreenPrefab;
+
+            if (winScreenPrefab != null)
+            {
+                // Instantiate the WinScreen prefab
+                WinScreen instantiatedWinScreen = Instantiate(winScreenPrefab);
+
+                // Log statements for debugging
+                Debug.Log("GameManager.Instance: " + (GameManager.Instance != null));
+                Debug.Log("GameManager Timer: " + (GameManager.Instance != null ? GameManager.Instance.Timer.ToString() : "GameManager.Instance is null"));
+
+                // Call the UpdateTimerText method with the current timer value from GameManager
+                instantiatedWinScreen.UpdateTimerText(GameManager.Instance.Timer);
+
+                // Open the WinScreen using MenuManager
+                MenuManager.Instance.OpenMenu(instantiatedWinScreen);
+            }
+            
         }
 
         private void Update()

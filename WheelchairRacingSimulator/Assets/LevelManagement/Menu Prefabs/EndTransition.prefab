@@ -741,7 +741,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.009611944, g: 0.46191424, b: 0.6792453, a: 1}
+  m_Color: {r: 0.009611944, g: 0.46191424, b: 0.6792453, a: 0.12941177}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1278,7 +1278,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Time: 00:00:00'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1c2abe752a66f94408c5482b79965e53, type: 2}
   m_sharedMaterial: {fileID: -1984215283041084497, guid: 1c2abe752a66f94408c5482b79965e53,

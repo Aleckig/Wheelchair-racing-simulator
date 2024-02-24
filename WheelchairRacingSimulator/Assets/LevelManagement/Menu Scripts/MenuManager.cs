@@ -19,8 +19,8 @@ namespace LevelManagement
         private GameMenu gameMenuPrefab;
         [SerializeField]
         private PauseMenu pauseMenuPrefab;
-        [SerializeField]
-        private WinScreen winScreenPrefab;
+        /*[SerializeField]
+        private*/ public WinScreen winScreenPrefab;
         [SerializeField]
         private ModeSelectMenu levelSelectMenuPrefab;
 
