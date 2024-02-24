@@ -2,54 +2,57 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestMovement : MonoBehaviour
+namespace WheelchairGame
 {
-    public float accelerationSpeed = 5f;
-    public float decelerationSpeed = 2f;
-
-    private Rigidbody rb;
-    private bool accelerating = false;
-
-    private void Start()
+    public class TestMovement : MonoBehaviour
     {
-        rb = GetComponent<Rigidbody>();
-    }
+        public float accelerationSpeed = 5f;
+        public float decelerationSpeed = 2f;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        private Rigidbody rb;
+        private bool accelerating = false;
+
+        private void Start()
         {
-            accelerating = true;
+            rb = GetComponent<Rigidbody>();
         }
 
-        if (Input.GetKeyUp(KeyCode.Space))
+        private void Update()
         {
-            accelerating = false;
-        }
-    }
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                accelerating = true;
+            }
 
-    private void FixedUpdate()
-    {
-        if (accelerating)
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                accelerating = false;
+            }
+        }
+
+        private void FixedUpdate()
         {
-            Accelerate();
+            if (accelerating)
+            {
+                Accelerate();
+            }
+            else
+            {
+                Decelerate();
+            }
         }
-        else
+
+        private void Accelerate()
         {
-            Decelerate();
+            rb.AddForce(transform.forward * accelerationSpeed, ForceMode.Acceleration);
         }
-    }
 
-    private void Accelerate()
-    {
-        rb.AddForce(transform.forward * accelerationSpeed, ForceMode.Acceleration);
-    }
+        private void Decelerate()
+        {
+            Vector3 currentVelocity = rb.velocity;
+            Vector3 decelerationForce = -currentVelocity.normalized * decelerationSpeed;
 
-    private void Decelerate()
-    {
-        Vector3 currentVelocity = rb.velocity;
-        Vector3 decelerationForce = -currentVelocity.normalized * decelerationSpeed;
-
-        rb.AddForce(decelerationForce, ForceMode.Acceleration);
+            rb.AddForce(decelerationForce, ForceMode.Acceleration);
+        }
     }
 }
