@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
+using UnityEditor;
 
 namespace LevelManagement
 {
@@ -86,6 +87,7 @@ namespace LevelManagement
             // loop through the fields
             foreach (FieldInfo field in fields)
             {
+                
                 // locate the prefab from each field
                 Menu prefab = field.GetValue(this) as Menu;
 
@@ -98,7 +100,11 @@ namespace LevelManagement
                     // disable the Menu object unless it is the MainMenu
                     if (prefab != mainMenuPrefab)
                     {
-                        menuInstance.gameObject.SetActive(false);
+                        if(menuInstance != null)
+                        {
+                            menuInstance.gameObject.SetActive(false);
+                        }
+                        
                     }
                     else
                     {
@@ -143,6 +149,7 @@ namespace LevelManagement
 
             // remove the top Menu and disable
             Menu topMenu = _menuStack.Pop();
+            
             topMenu.gameObject.SetActive(false);
 
             // enable the next Menu revealed at the top of the Menu stack

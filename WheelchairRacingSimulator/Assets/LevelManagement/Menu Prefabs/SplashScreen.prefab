@@ -285,7 +285,7 @@ Canvas:
   m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &729820367563108551
 MonoBehaviour:
@@ -341,7 +341,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   solidAlpha: 1
   clearAlpha: 0
-  fadeDuration: 1
+  fadeOnDuration: 2
+  fadeOffDuration: 2
   graphicsTOFade:
   - {fileID: 1443289220636491474}
   - {fileID: 3311763585866545000}

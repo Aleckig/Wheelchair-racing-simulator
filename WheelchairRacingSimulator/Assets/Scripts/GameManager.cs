@@ -10,6 +10,8 @@ namespace WheelchairGame
 {
     public class GameManager : MonoBehaviour
     {
+        
+        
             // Reference to the player GameObject
         [SerializeField] private GameObject player;
 
@@ -137,6 +139,8 @@ namespace WheelchairGame
             }
         }
 
+        
+
         private IEnumerator WinRoutine()
         {
             // Play transition and open win screen
@@ -165,6 +169,7 @@ namespace WheelchairGame
             }
             
         }
+        
 
         private void Update()
         {
