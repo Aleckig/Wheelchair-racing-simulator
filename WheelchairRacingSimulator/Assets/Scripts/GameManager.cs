@@ -1,50 +1,39 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;  
+using UnityEngine.SceneManagement;
 using LevelManagement;
 using TMPro;
-using WheelchairGame;   
+using WheelchairGame;
 
 namespace WheelchairGame
 {
     public class GameManager : MonoBehaviour
     {
-        
-        
-            // Reference to the player GameObject
         [SerializeField] private GameObject player;
-
-        // Reference to the Objective script
         private Objective objective;
-
-        // Flag to track if the game is over
         private bool isGameOver;
-
-        // Singleton instance of the GameManager
         private static GameManager instance;
 
-        // Reference to the transition fader prefab
         [SerializeField] private TransitionFader endTransitionPrefab;
-
-        // Countdown variables
         [SerializeField] private float countdownDuration = 5f;
         [SerializeField] private TextMeshProUGUI countdownText;
-        private bool isCountdownFinished = false; // Flag to track countdown status
-
-        // Timer variables
+        private bool isCountdownFinished = false;
+        
         [SerializeField] private TextMeshProUGUI timerText;
+        [SerializeField] private TextMeshProUGUI savedTimeText; // UI element for saved time
+        [SerializeField] private TextMeshProUGUI loadedTimeText;
+        
         public float timer;
         public float Timer => timer;
         [SerializeField] private TestMovement testMovement;
         public float CurrentTimer => timer;
 
-        // Singleton instance property
+        private const string FinalTimeKey = "FinalTime";
+
         public static GameManager Instance { get { return instance; } }
 
         private void Awake()
         {
-            // Singleton pattern implementation
             if (instance != null)
             {
                 Destroy(gameObject);
@@ -54,7 +43,6 @@ namespace WheelchairGame
                 instance = this;
             }
 
-            // Find the Objective script in the scene
             objective = FindObjectOfType<Objective>();
             if (objective == null)
             {
@@ -64,7 +52,6 @@ namespace WheelchairGame
 
         private void OnDestroy()
         {
-            // Clear the singleton instance on destroy
             if (instance == this)
             {
                 instance = null;
@@ -73,16 +60,17 @@ namespace WheelchairGame
 
         private void Start()
         {
-            // Start the countdown routine
             testMovement.enabled = false;
             StartCoroutine(CountdownRoutine());
+
+            float savedTime = LoadFinalTime();
+            UpdateTimerText();
         }
 
         private IEnumerator CountdownRoutine()
         {
             float countdownTime = countdownDuration;
 
-            // Countdown loop
             while (countdownTime > 0)
             {
                 countdownText.text = Mathf.CeilToInt(countdownTime).ToString();
@@ -90,16 +78,13 @@ namespace WheelchairGame
                 countdownTime--;
             }
 
-            // Finish countdown
             countdownText.text = "GO!";
             yield return new WaitForSeconds(1f);
             countdownText.gameObject.SetActive(false);
 
-            // Set the flag to indicate countdown finished
             isCountdownFinished = true;
             testMovement.enabled = true;
 
-            // Start the timer
             StartCoroutine(TimerRoutine());
         }
 
@@ -119,67 +104,100 @@ namespace WheelchairGame
 
         private void UpdateTimerText()
         {
-            // Update the timer text
             int minutes = Mathf.FloorToInt(timer / 60);
             int seconds = Mathf.FloorToInt(timer % 60);
             int milliseconds = Mathf.FloorToInt((timer * 1000) % 1000);
 
             timerText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
+
+            // Load the saved final time
+            float loadedTime = LoadFinalTime();
+
+            // Display loaded time
+            int loadedMinutes = Mathf.FloorToInt(loadedTime / 60);
+            int loadedSeconds = Mathf.FloorToInt(loadedTime % 60);
+            int loadedMilliseconds = Mathf.FloorToInt((loadedTime * 1000) % 1000);
+
+            loadedTimeText.text = string.Format("Best Time: {0:00}:{1:00}:{2:000}", loadedMinutes, loadedSeconds, loadedMilliseconds);
+
+            // Compare the current timer with the loaded time
+            if (timer < loadedTime || loadedTime == 0f)
+            {
+                // If the new time is faster or there's no loaded time, update the saved time text
+                int savedMinutes = Mathf.FloorToInt(timer / 60);
+                int savedSeconds = Mathf.FloorToInt(timer % 60);
+                int savedMilliseconds = Mathf.FloorToInt((timer * 1000) % 1000);
+
+                savedTimeText.text = string.Format("Saved Time: {0:00}:{1:00}:{2:000}", savedMinutes, savedSeconds, savedMilliseconds);
+            }
         }
 
         public void EndLevel()
         {
-            // End the level
             if (!isGameOver)
             {
                 isGameOver = true;
-                StopAllCoroutines(); // Stop the countdown and timer routines
+                StopAllCoroutines();
                 StartCoroutine(WinRoutine());
+
+                SaveFinalTime(timer);
+
                 Debug.Log("Level Complete");
             }
         }
 
-        
+        private void SaveFinalTime(float time)
+        {
+            // Load the old time
+            float loadedTime = LoadFinalTime();
+
+            // Compare the current time with the loaded time
+            if (time < loadedTime || loadedTime == 0f)
+            {
+                // If the new time is faster or there's no loaded time, update PlayerPrefs
+                PlayerPrefs.SetFloat(FinalTimeKey, time);
+                PlayerPrefs.Save();
+            }
+        }
+
+        private float LoadFinalTime()
+        {
+            return PlayerPrefs.GetFloat(FinalTimeKey, 0f);
+        }
+
+        private void UpdateSavedTimeText()
+        {
+            float savedTime = LoadFinalTime();
+            int savedMinutes = Mathf.FloorToInt(savedTime / 60);
+            int savedSeconds = Mathf.FloorToInt(savedTime % 60);
+            int savedMilliseconds = Mathf.FloorToInt((savedTime * 1000) % 1000);
+
+            savedTimeText.text = string.Format("Saved Time: {0:00}:{1:00}:{2:000}", savedMinutes, savedSeconds, savedMilliseconds);
+        }
 
         private IEnumerator WinRoutine()
         {
-            // Play transition and open win screen
             TransitionFader.PlayTransition(endTransitionPrefab);
 
             float fadeDelay = (endTransitionPrefab != null) ? endTransitionPrefab.Delay + endTransitionPrefab.FadeOnDuration : 0f;
             yield return new WaitForSeconds(fadeDelay);
 
-            // Access the WinScreen prefab from the MenuManager
             WinScreen winScreenPrefab = MenuManager.Instance.winScreenPrefab;
 
             if (winScreenPrefab != null)
             {
-                // Instantiate the WinScreen prefab
                 WinScreen instantiatedWinScreen = Instantiate(winScreenPrefab);
-
-                // Log statements for debugging
-                Debug.Log("GameManager.Instance: " + (GameManager.Instance != null));
-                Debug.Log("GameManager Timer: " + (GameManager.Instance != null ? GameManager.Instance.Timer.ToString() : "GameManager.Instance is null"));
-
-                // Call the UpdateTimerText method with the current timer value from GameManager
-                instantiatedWinScreen.UpdateTimerText(GameManager.Instance.Timer);
-
-                // Open the WinScreen using MenuManager
+                instantiatedWinScreen.UpdateTimerText(LoadFinalTime());
                 MenuManager.Instance.OpenMenu(instantiatedWinScreen);
             }
-            
         }
-        
 
         private void Update()
         {
-            // Check if the objective is complete and the countdown has finished
             if (objective != null && objective.IsComplete && isCountdownFinished)
             {
                 EndLevel();
             }
         }
     }
-
 }
-
