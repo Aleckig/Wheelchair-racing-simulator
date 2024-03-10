@@ -70,6 +70,12 @@ namespace LevelManagement
             yield return new WaitForSeconds(playDelay);
             GameMenu.Open();
         }
+
+        public void OnBackPressedMode()
+        {
+            base.OnBackPressed();
+            MainMenu.Open();
+        }
        
     
     }
