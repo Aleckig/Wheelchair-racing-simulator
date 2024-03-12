@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;  
 using TMPro;
+using WheelchairGame;
 
 
 namespace LevelManagement
@@ -78,6 +79,12 @@ namespace LevelManagement
 
         public void OnMainMenuPressed()
         {
+            // Retrieve the current race time from GameManager
+            float currentRaceTime = GameManager.Instance.Timer;
+
+            // Update the timer text with the current race time
+            UpdateTimerText(currentRaceTime);
+
             // Reset the timer before going back to the main menu
             ResetTimer();
 

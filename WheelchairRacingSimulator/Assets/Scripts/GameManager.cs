@@ -177,6 +177,7 @@ namespace WheelchairGame
 
         private IEnumerator WinRoutine()
         {
+            // Play transition and open win screen
             TransitionFader.PlayTransition(endTransitionPrefab);
 
             float fadeDelay = (endTransitionPrefab != null) ? endTransitionPrefab.Delay + endTransitionPrefab.FadeOnDuration : 0f;
@@ -187,7 +188,11 @@ namespace WheelchairGame
             if (winScreenPrefab != null)
             {
                 WinScreen instantiatedWinScreen = Instantiate(winScreenPrefab);
-                instantiatedWinScreen.UpdateTimerText(LoadFinalTime());
+
+                // Pass the current race time to the WinScreen
+                instantiatedWinScreen.UpdateTimerText(timer);
+
+                // Open the WinScreen using MenuManager
                 MenuManager.Instance.OpenMenu(instantiatedWinScreen);
             }
         }
