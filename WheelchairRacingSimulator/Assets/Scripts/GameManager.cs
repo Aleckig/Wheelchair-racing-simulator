@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using LevelManagement;
 using TMPro;
 using WheelchairGame;
+using System.Collections.Generic;
+using UnityEngine.UI;      
 
 namespace WheelchairGame
 {
@@ -22,13 +24,17 @@ namespace WheelchairGame
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private TextMeshProUGUI savedTimeText; // UI element for saved time
         [SerializeField] private TextMeshProUGUI loadedTimeText;
+
+        //[SerializeField] private Button resetButton; //reset button for saved time
         
         public float timer;
         public float Timer => timer;
         [SerializeField] private TestMovement testMovement;
         public float CurrentTimer => timer;
 
-        private const string FinalTimeKey = "FinalTime";
+        private const int MaxSavedTimes = 5;
+
+        private List<float> topTimes = new List<float>();
 
         public static GameManager Instance { get { return instance; } }
 
@@ -63,9 +69,35 @@ namespace WheelchairGame
             testMovement.enabled = false;
             StartCoroutine(CountdownRoutine());
 
-            float savedTime = LoadFinalTime();
+            LoadTopTimes();
+            /*
+            if (resetButton != null)
+            {
+                resetButton.onClick.AddListener(ResetSavedTimes);
+            }
+            else
+            {
+                Debug.LogError("Reset button reference not set!");
+            }*/
+            
+
             UpdateTimerText();
         }
+        /*
+
+        public void ResetSavedTimes()
+        {
+             Debug.Log("ResetSavedTimes() called");
+    
+            // Clear the loaded times
+            topTimes.Clear();
+            
+            // Clear the displayed times in the UI
+            loadedTimeText.text = "Top 5 Times:\n";
+            
+            // Update the displayed timer text
+            UpdateTimerText();
+        }*/
 
         private IEnumerator CountdownRoutine()
         {
@@ -111,25 +143,43 @@ namespace WheelchairGame
             timerText.text = string.Format("{0:00}:{1:00}:{2:000}", minutes, seconds, milliseconds);
 
             // Load the saved final time
-            float loadedTime = LoadFinalTime();
+            LoadTopTimes();
 
-            // Display loaded time
-            int loadedMinutes = Mathf.FloorToInt(loadedTime / 60);
-            int loadedSeconds = Mathf.FloorToInt(loadedTime % 60);
-            int loadedMilliseconds = Mathf.FloorToInt((loadedTime * 1000) % 1000);
-
-            loadedTimeText.text = string.Format("Best Time: {0:00}:{1:00}:{2:000}", loadedMinutes, loadedSeconds, loadedMilliseconds);
-
-            // Compare the current timer with the loaded time
-            if (timer < loadedTime || loadedTime == 0f)
+            // Display loaded times
+            loadedTimeText.text = "Top 5 Times:\n";
+            for (int i = 0; i < topTimes.Count; i++)
             {
-                // If the new time is faster or there's no loaded time, update the saved time text
-                int savedMinutes = Mathf.FloorToInt(timer / 60);
-                int savedSeconds = Mathf.FloorToInt(timer % 60);
-                int savedMilliseconds = Mathf.FloorToInt((timer * 1000) % 1000);
+                int topMinutes = Mathf.FloorToInt(topTimes[i] / 60);
+                int topSeconds = Mathf.FloorToInt(topTimes[i] % 60);
+                int topMilliseconds = Mathf.FloorToInt((topTimes[i] * 1000) % 1000);
 
-                savedTimeText.text = string.Format("Saved Time: {0:00}:{1:00}:{2:000}", savedMinutes, savedSeconds, savedMilliseconds);
+                loadedTimeText.text += string.Format("{0}. {1:00}:{2:00}:{3:000}\n", i + 1, topMinutes, topSeconds, topMilliseconds);
             }
+        }
+
+        private void LoadTopTimes()
+        {
+            topTimes.Clear();
+            string sceneName = SceneManager.GetActiveScene().name;
+            for (int i = 0; i < MaxSavedTimes; i++)
+            {
+                float time = PlayerPrefs.GetFloat($"{sceneName}_FinalTime_{i}", 0f);
+                if (time > 0)
+                {
+                    topTimes.Add(time);
+                }
+            }
+            topTimes.Sort();
+        }
+
+        private void SaveTopTimes()
+        {
+            string sceneName = SceneManager.GetActiveScene().name;
+            for (int i = 0; i < Mathf.Min(topTimes.Count, MaxSavedTimes); i++)
+            {
+                PlayerPrefs.SetFloat($"{sceneName}_FinalTime_{i}", topTimes[i]);
+            }
+            PlayerPrefs.Save();
         }
 
         public void EndLevel()
@@ -140,39 +190,26 @@ namespace WheelchairGame
                 StopAllCoroutines();
                 StartCoroutine(WinRoutine());
 
-                SaveFinalTime(timer);
+                AddTimeToTopTimes(timer);
+                
+                SaveTopTimes();
 
                 Debug.Log("Level Complete");
             }
         }
 
-        private void SaveFinalTime(float time)
+        private void AddTimeToTopTimes(float time)
         {
-            // Load the old time
-            float loadedTime = LoadFinalTime();
-
-            // Compare the current time with the loaded time
-            if (time < loadedTime || loadedTime == 0f)
+            // If the list isn't full or the new time is faster than the slowest time in the list
+            if (topTimes.Count < MaxSavedTimes || time < topTimes[topTimes.Count - 1])
             {
-                // If the new time is faster or there's no loaded time, update PlayerPrefs
-                PlayerPrefs.SetFloat(FinalTimeKey, time);
-                PlayerPrefs.Save();
+                if (topTimes.Count >= MaxSavedTimes)
+                {
+                    topTimes.RemoveAt(topTimes.Count - 1);
+                }
+                topTimes.Add(time);
+                topTimes.Sort();
             }
-        }
-
-        private float LoadFinalTime()
-        {
-            return PlayerPrefs.GetFloat(FinalTimeKey, 0f);
-        }
-
-        private void UpdateSavedTimeText()
-        {
-            float savedTime = LoadFinalTime();
-            int savedMinutes = Mathf.FloorToInt(savedTime / 60);
-            int savedSeconds = Mathf.FloorToInt(savedTime % 60);
-            int savedMilliseconds = Mathf.FloorToInt((savedTime * 1000) % 1000);
-
-            savedTimeText.text = string.Format("Saved Time: {0:00}:{1:00}:{2:000}", savedMinutes, savedSeconds, savedMilliseconds);
         }
 
         private IEnumerator WinRoutine()
@@ -196,6 +233,8 @@ namespace WheelchairGame
                 MenuManager.Instance.OpenMenu(instantiatedWinScreen);
             }
         }
+
+        
 
         private void Update()
         {
