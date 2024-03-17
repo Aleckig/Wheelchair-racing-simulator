@@ -593,7 +593,6 @@ MonoBehaviour:
   timerText: {fileID: 1096682434}
   savedTimeText: {fileID: 1535606539}
   loadedTimeText: {fileID: 1883071424}
-  resetButton: {fileID: 1342671372}
   timer: 0
   testMovement: {fileID: 819258918}
 --- !u!4 &988079419
@@ -672,7 +671,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1342671371
 RectTransform:
   m_ObjectHideFlags: 0

@@ -25,14 +25,13 @@ namespace WheelchairGame
         [SerializeField] private TextMeshProUGUI savedTimeText; // UI element for saved time
         [SerializeField] private TextMeshProUGUI loadedTimeText;
 
-        [SerializeField] private Button resetButton; //reset button for saved time
+        //[SerializeField] private Button resetButton; //reset button for saved time
         
         public float timer;
         public float Timer => timer;
         [SerializeField] private TestMovement testMovement;
         public float CurrentTimer => timer;
 
-        private const string FinalTimeKey = "FinalTime";
         private const int MaxSavedTimes = 5;
 
         private List<float> topTimes = new List<float>();
@@ -71,6 +70,7 @@ namespace WheelchairGame
             StartCoroutine(CountdownRoutine());
 
             LoadTopTimes();
+            /*
             if (resetButton != null)
             {
                 resetButton.onClick.AddListener(ResetSavedTimes);
@@ -78,11 +78,12 @@ namespace WheelchairGame
             else
             {
                 Debug.LogError("Reset button reference not set!");
-            }
+            }*/
             
 
             UpdateTimerText();
         }
+        /*
 
         public void ResetSavedTimes()
         {
@@ -96,7 +97,7 @@ namespace WheelchairGame
             
             // Update the displayed timer text
             UpdateTimerText();
-        }
+        }*/
 
         private IEnumerator CountdownRoutine()
         {
@@ -159,9 +160,10 @@ namespace WheelchairGame
         private void LoadTopTimes()
         {
             topTimes.Clear();
+            string sceneName = SceneManager.GetActiveScene().name;
             for (int i = 0; i < MaxSavedTimes; i++)
             {
-                float time = PlayerPrefs.GetFloat($"{FinalTimeKey}_{i}", 0f);
+                float time = PlayerPrefs.GetFloat($"{sceneName}_FinalTime_{i}", 0f);
                 if (time > 0)
                 {
                     topTimes.Add(time);
@@ -172,9 +174,10 @@ namespace WheelchairGame
 
         private void SaveTopTimes()
         {
+            string sceneName = SceneManager.GetActiveScene().name;
             for (int i = 0; i < Mathf.Min(topTimes.Count, MaxSavedTimes); i++)
             {
-                PlayerPrefs.SetFloat($"{FinalTimeKey}_{i}", topTimes[i]);
+                PlayerPrefs.SetFloat($"{sceneName}_FinalTime_{i}", topTimes[i]);
             }
             PlayerPrefs.Save();
         }
