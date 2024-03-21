@@ -9,6 +9,7 @@ namespace LevelManagement
 {
     public class SettingsMenu : Menu<SettingsMenu>
     {
+        [Header("Volume")]
 
         [SerializeField] private Slider masterVolumeSlider;
         [SerializeField] private Slider musicVolumeSlider;
