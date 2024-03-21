@@ -872,6 +872,7 @@ MonoBehaviour:
   masterVolumeSlider: {fileID: 806990282509685959}
   musicVolumeSlider: {fileID: 4102677350621459881}
   sfxVolumeSlider: {fileID: 4193682471720627459}
+  volumeMixer: {fileID: 24100000, guid: 63f2f6303bb88df4593178bf9b1a6cfd, type: 2}
 --- !u!1 &6087457399935601783
 GameObject:
   m_ObjectHideFlags: 0

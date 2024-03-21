@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using LevelManagement.Data;
+using UnityEngine.Audio;
 
 namespace LevelManagement
 {
@@ -12,6 +13,7 @@ namespace LevelManagement
         [SerializeField] private Slider masterVolumeSlider;
         [SerializeField] private Slider musicVolumeSlider;
         [SerializeField] private Slider sfxVolumeSlider;
+        [SerializeField] private AudioMixer volumeMixer;
 
         private DataManager dataManager;
 
@@ -36,6 +38,7 @@ namespace LevelManagement
             {
                 dataManager.MasterVolume = volume;
             }
+            volumeMixer.SetFloat("MASTER", Mathf.Log10(volume) * 20);
         }
         public void OnMusicVolumeChanged(float volume)
         {
@@ -43,6 +46,7 @@ namespace LevelManagement
             {
                 dataManager.MusicVolume = volume;
             }
+            volumeMixer.SetFloat("MUSIC", Mathf.Log10(volume) * 20);
         }   
         public void OnSFXVolumeChanged(float volume)
         {
@@ -50,6 +54,7 @@ namespace LevelManagement
             {
                 dataManager.SFXVolume = volume;
             }
+            volumeMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
         }
 
         public override void OnBackPressed()
