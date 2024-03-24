@@ -39,7 +39,7 @@ namespace LevelManagement
             {
                 dataManager.MasterVolume = volume;
             }
-            volumeMixer.SetFloat("MASTER", Mathf.Log10(volume) * 20);
+            volumeMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
         }
         public void OnMusicVolumeChanged(float volume)
         {
@@ -47,7 +47,7 @@ namespace LevelManagement
             {
                 dataManager.MusicVolume = volume;
             }
-            volumeMixer.SetFloat("MUSIC", Mathf.Log10(volume) * 20);
+            volumeMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
         }   
         public void OnSFXVolumeChanged(float volume)
         {
