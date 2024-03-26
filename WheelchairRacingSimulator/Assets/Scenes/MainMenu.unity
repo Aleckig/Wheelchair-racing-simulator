@@ -414,6 +414,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   endTransitionPrefab: {fileID: 0}
+  countdownDuration: 5
+  countdownText: {fileID: 0}
+  timerText: {fileID: 0}
+  savedTimeText: {fileID: 0}
+  loadedTimeText: {fileID: 0}
+  timer: 0
+  testMovement: {fileID: 0}
 --- !u!1 &1510630486
 GameObject:
   m_ObjectHideFlags: 0
