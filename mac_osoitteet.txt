@@ -1,0 +1,2 @@
+"F0:15:8A:61:5F:E6" pyörän mac
+"E7:F0:A4:DB:BA:02" erillinen mac
