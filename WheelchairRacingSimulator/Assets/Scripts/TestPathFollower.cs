@@ -1,6 +1,5 @@
 using UnityEngine;
 using PathCreation;
-using System.Diagnostics;
 
 public class TestPathFollower : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class TestPathFollower : MonoBehaviour
     private bool speedingUp = false;
     public float totalDistanceTraveled = 0f;
     private Vector3 lastPosition;
+    public SpeedUpdater speedUpdater;
 
     private void Start()
     {
@@ -18,6 +18,7 @@ public class TestPathFollower : MonoBehaviour
 
     private void Update()
     {
+        speed = speedUpdater.speedTest;
         // Calculate the distance moved in this frame
         float distanceThisFrame = Vector3.Distance(transform.position, lastPosition);
 
