@@ -29,7 +29,7 @@ namespace WheelchairGame
         
         public float timer;
         public float Timer => timer;
-        [SerializeField] private TestMovement testMovement;
+        //[SerializeField] private TestMovement testMovement;
         public float CurrentTimer => timer;
 
         private const int MaxSavedTimes = 5;
@@ -66,7 +66,7 @@ namespace WheelchairGame
 
         private void Start()
         {
-            testMovement.enabled = false;
+            //testMovement.enabled = false;
             StartCoroutine(CountdownRoutine());
 
             LoadTopTimes();
@@ -115,7 +115,7 @@ namespace WheelchairGame
             countdownText.gameObject.SetActive(false);
 
             isCountdownFinished = true;
-            testMovement.enabled = true;
+            //testMovement.enabled = true;
 
             StartCoroutine(TimerRoutine());
         }
@@ -146,7 +146,7 @@ namespace WheelchairGame
             LoadTopTimes();
 
             // Display loaded times
-            loadedTimeText.text = "Top 5 Times:\n";
+            loadedTimeText.text = "Top Times:\n";
             for (int i = 0; i < topTimes.Count; i++)
             {
                 int topMinutes = Mathf.FloorToInt(topTimes[i] / 60);
