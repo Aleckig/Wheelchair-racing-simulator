@@ -21,7 +21,7 @@ MonoBehaviour:
     bestTime: 'Best Time:'
   - name: 400 Meters
     description: 
-    sceneName: Test.Alexander 2
+    sceneName: 400M
     id: 400M
     image: {fileID: 21300000, guid: 29140f98bbb028e45b0e62ee724a67b4, type: 3}
     bestTime: 'Best Time:'
