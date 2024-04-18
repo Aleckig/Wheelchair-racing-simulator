@@ -18,7 +18,7 @@ public class TestPathFollower : MonoBehaviour
 
     private void Update()
     {
-        speed = speedUpdater.speedTest;
+        speed = speedUpdater.speed;
         // Calculate the distance moved in this frame
         float distanceThisFrame = Vector3.Distance(transform.position, lastPosition);
 

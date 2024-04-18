@@ -6,19 +6,17 @@ using System.IO;
 
 public class SpeedUpdater : MonoBehaviour
 {
-    //public string jsonFilePath = @"C:\Games\test\WheelchairRacingSimulator_Data\speed.json"; // Path to your JSON file
-    public string jsonFilePath;
+    private string jsonFilePath;
     public string jsonFileName = "speed.json";
-    //public string jsonFilePath = Path.Combine(Application.persistentDataPath, "speed.json");
     public float updateInterval = 1f; // Interval in seconds to check for updates
     public float speed;
     private Coroutine dataUpdateCoroutine;
 
     void Start()
     {
+        //Finds the json file in the game build data directory 
+        jsonFilePath = Path.Combine(Application.dataPath, jsonFileName);
 
-        string jsonFilePath = Path.Combine(Application.streamingAssetsPath, jsonFileName);
-        // Start coroutine to continuously update data
         dataUpdateCoroutine = StartCoroutine(UpdateDataCoroutine());
     }
 
