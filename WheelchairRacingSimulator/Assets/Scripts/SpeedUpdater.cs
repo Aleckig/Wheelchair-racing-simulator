@@ -10,6 +10,7 @@ public class SpeedUpdater : MonoBehaviour
     public string jsonFileName = "speed.json";
     public float updateInterval = 1f; // Interval in seconds to check for updates
     public float speed;
+    public float SpeedMultiplier = 3.6f;
     private Coroutine dataUpdateCoroutine;
 
     void Start()
@@ -34,7 +35,7 @@ public class SpeedUpdater : MonoBehaviour
             Debug.Log("Speed: " + speedData.speed);
 
             // Get speed from json and multiply to get m/s
-            speed = speedData.speed * 3.6f;
+            speed = speedData.speed * SpeedMultiplier;
             
 
             // Wait for the specified interval before checking for updates again
