@@ -7,6 +7,7 @@ using TMPro;
 
 
 
+
 namespace LevelManagement
 {
     [RequireComponent(typeof(ModeSelector))]
@@ -59,12 +60,13 @@ namespace LevelManagement
         }
 
         public void OnPlayPressed()
-        {
-            StartCoroutine(OnPlayPressedRoutine(currentMode?.SceneName));
+        {    
+            StartCoroutine(OnPlayPressedRoutine(currentMode?.SceneName));     
         }
 
         private IEnumerator OnPlayPressedRoutine(string sceneName)
         {
+           
             TransitionFader.PlayTransition(startTransitionPrefab);
             LevelLoader.LoadLevel(sceneName);
             yield return new WaitForSeconds(playDelay);

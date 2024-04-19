@@ -10,6 +10,7 @@ public class TestPathFollower : MonoBehaviour
     public float totalDistanceTraveled = 0f;
     private Vector3 lastPosition;
     public SpeedUpdater speedUpdater;
+    public float speedMultiplier = 3.6f;
 
     private void Start()
     {
@@ -23,7 +24,7 @@ public class TestPathFollower : MonoBehaviour
         float distanceThisFrame = Vector3.Distance(transform.position, lastPosition);
 
         // Update the position and rotation on the path
-        distanceTravelled += speed * Time.deltaTime;
+        distanceTravelled += speed * speedMultiplier * Time.deltaTime;
 
         transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled);
         transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled);

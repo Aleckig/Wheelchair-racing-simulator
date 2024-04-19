@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using WheelchairGame;
 
+
 namespace LevelManagement
 {
     // Base class for generic menus
@@ -11,9 +12,13 @@ namespace LevelManagement
         private static T instance;
         public static T Instance { get { return instance; } }
 
+        
+
         // Awake is called when the script instance is being loaded
         protected virtual void Awake()
         {
+
+           
             // If an instance of this menu already exists, destroy the new instance
             if (instance != null)
             {
@@ -57,17 +62,17 @@ namespace LevelManagement
             if (MenuManager.Instance != null)
             {
                 MenuManager.Instance.CloseMenu();
-                Debug.Log("Back");
+                //Debug.Log("Back");
             }
             else
             {
                 // Log an error if MenuManager is not found
-                Debug.LogError("Menu Manager not found in the scene.");
+                //Debug.LogError("Menu Manager not found in the scene.");
             }
         }
     }
 
-
+   
 }
 
 
