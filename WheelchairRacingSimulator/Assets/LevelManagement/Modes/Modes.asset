@@ -14,20 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modes:
   - name: 100 Meters
-    description: Amandas best time?
-    sceneName: Test.Alexander
+    description: 
+    sceneName: 100M
     id: 100M
     image: {fileID: 21300000, guid: d533f8281cac3c5458ba78a72475ed4c, type: 3}
     bestTime: 'Best Time:'
   - name: 400 Meters
-    description: Amandas best time?
-    sceneName: Test.Alexander 2
+    description: 
+    sceneName: 400M
     id: 400M
     image: {fileID: 21300000, guid: 29140f98bbb028e45b0e62ee724a67b4, type: 3}
-    bestTime: 'Best Time:'
-  - name: ExtraMode
-    description: ???
-    sceneName: Test.Alexander 3
-    id: Extra
-    image: {fileID: 21300000, guid: 6a0fcb130a98c85469f1892153abfb51, type: 3}
     bestTime: 'Best Time:'

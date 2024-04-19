@@ -5,19 +5,28 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SplashScreen.unity
     guid: 97e8d7a190896e64d8d616779e7e5cc4
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainMenu.unity
     guid: d3ace597ba5e3a44eaa9049624611ab9
-  - enabled: 1
-    path: Assets/Scenes/Test.Alexander.unity
+  - enabled: 0
+    path: Assets/Scenes/100M.unity
+    guid: 8d7df5939de3e714883d0b1d9489fe2d
+  - enabled: 0
+    path: Assets/Scenes/400M.unity
+    guid: b48ba862c711a9043be7413726e597fe
+  - enabled: 0
+    path: Assets/Scenes/TestScenes/Test.Alexander.unity
     guid: fa96ca1638ac86742aec50a2b4699c83
-  - enabled: 1
-    path: Assets/Scenes/Test.Alexander 2.unity
+  - enabled: 0
+    path: Assets/Scenes/TestScenes/Test.Alexander 2.unity
     guid: cc32b5372e9a372428fbc0ad3bfef3c2
-  - enabled: 1
-    path: Assets/Scenes/Test.Alexander 3.unity
+  - enabled: 0
+    path: Assets/Scenes/TestScenes/Test.Alexander 3.unity
     guid: c710f9680c23c4549963ccbd34b98ef0
+  - enabled: 1
+    path: Assets/Scenes/TestScenes/Test.Jose.unity
+    guid: b33ef5e94a9c58644ab2c246fe8a4cfb
   m_configObjects: {}

@@ -6,14 +6,18 @@ using System.IO;
 
 public class SpeedUpdater : MonoBehaviour
 {
-    public string jsonFilePath = @"C:\json\speedData.json"; // Path to your JSON file
+    private string jsonFilePath;
+    public string jsonFileName = "speed.json";
     public float updateInterval = 1f; // Interval in seconds to check for updates
-    public float speedTest;
+    public float speed;
+    public float SpeedMultiplier = 3.6f;
     private Coroutine dataUpdateCoroutine;
 
     void Start()
     {
-        // Start coroutine to continuously update data
+        //Finds the json file in the game build data directory 
+        jsonFilePath = Path.Combine(Application.dataPath, jsonFileName);
+
         dataUpdateCoroutine = StartCoroutine(UpdateDataCoroutine());
     }
 
@@ -29,7 +33,11 @@ public class SpeedUpdater : MonoBehaviour
 
             // Access speed data
             Debug.Log("Speed: " + speedData.speed);
-            speedTest = speedData.speed;
+
+            // Get speed from json and multiply to get m/s
+            speed = speedData.speed * SpeedMultiplier;
+            
+
             // Wait for the specified interval before checking for updates again
             yield return new WaitForSeconds(updateInterval);
         }

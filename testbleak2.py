@@ -1,14 +1,17 @@
 import asyncio
+import json
 from bleak import BleakClient
 
 CSC_SERVICE_UUID = "00001816-0000-1000-8000-00805f9b34fb"
 CSC_CHARACTERISTIC_UUID = "00002a5b-0000-1000-8000-00805f9b34fb"
-DEVICE_MAC_ADDRESS = "F0:15:8A:61:5F:E6"  # device's MAC address
+DEVICE_MAC_ADDRESS = "F0:15:8A:61:5F:E6" # device's MAC address
 WHEEL_CIRCUMFERENCE = 0.262  # in meters
 
 # Initialize with None for the first run
 previous_wheel_revolutions = None
 previous_event_time = None
+
+
 
 def calculate_speed(wheel_revolutions, event_time, previous_wheel_revolutions, previous_event_time):
     if previous_wheel_revolutions is None or previous_event_time is None:
@@ -40,7 +43,11 @@ async def notification_handler(sender, data):
 
     speed_kmh = calculate_speed(wheel_revolutions, event_time, previous_wheel_revolutions, previous_event_time)
     if speed_kmh is not None:
-        print(f"Speed: {speed_kmh:.2f} km/h")
+        rounded_speed = round(speed_kmh, 2)
+        print(f"Speed: {rounded_speed} km/h")
+
+        with open("speed.json", "w") as f:
+            json.dump({"latest_speed_kmh": rounded_speed}, f)
 
     # Update for next calculation
     previous_wheel_revolutions, previous_event_time = wheel_revolutions, event_time
