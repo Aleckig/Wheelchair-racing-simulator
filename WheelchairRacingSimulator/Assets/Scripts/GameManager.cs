@@ -17,7 +17,7 @@ namespace WheelchairGame
         private static GameManager instance;
 
         [SerializeField] private TransitionFader endTransitionPrefab;
-        [SerializeField] private float countdownDuration = 5f;
+        [SerializeField] private float countdownDuration = 9f;
         [SerializeField] private TextMeshProUGUI countdownText;
         private bool isCountdownFinished = false;
         
@@ -25,11 +25,11 @@ namespace WheelchairGame
         [SerializeField] private TextMeshProUGUI savedTimeText; // UI element for saved time
         [SerializeField] private TextMeshProUGUI loadedTimeText;
 
-        //[SerializeField] private Button resetButton; //reset button for saved time
+        
         
         public float timer;
         public float Timer => timer;
-        //[SerializeField] private TestMovement testMovement;
+       
         public float CurrentTimer => timer;
 
         private const int MaxSavedTimes = 5;
@@ -70,34 +70,9 @@ namespace WheelchairGame
             StartCoroutine(CountdownRoutine());
 
             LoadTopTimes();
-            /*
-            if (resetButton != null)
-            {
-                resetButton.onClick.AddListener(ResetSavedTimes);
-            }
-            else
-            {
-                Debug.LogError("Reset button reference not set!");
-            }*/
-            
-
+           
             UpdateTimerText();
         }
-        /*
-
-        public void ResetSavedTimes()
-        {
-             Debug.Log("ResetSavedTimes() called");
-    
-            // Clear the loaded times
-            topTimes.Clear();
-            
-            // Clear the displayed times in the UI
-            loadedTimeText.text = "Top 5 Times:\n";
-            
-            // Update the displayed timer text
-            UpdateTimerText();
-        }*/
 
         private IEnumerator CountdownRoutine()
         {

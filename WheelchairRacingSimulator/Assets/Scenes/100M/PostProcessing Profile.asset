@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: 0}
@@ -179,10 +179,10 @@ MonoBehaviour:
     m_Value: 1
   gaussianStart:
     m_OverrideState: 1
-    m_Value: 25.85
+    m_Value: 33.23
   gaussianEnd:
     m_OverrideState: 1
-    m_Value: 108.2
+    m_Value: 97.5
   gaussianMaxRadius:
     m_OverrideState: 0
     m_Value: 1
@@ -222,7 +222,7 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 0.08
+    m_Value: 0.18
   contrast:
     m_OverrideState: 0
     m_Value: -26

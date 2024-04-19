@@ -35,7 +35,8 @@ public class SpeedUpdater : MonoBehaviour
             Debug.Log("Speed: " + speedData.speed);
 
             // Get speed from json and multiply to get m/s
-            speed = speedData.speed * SpeedMultiplier;
+            //speed = speedData.speed * SpeedMultiplier;
+            speed = speed * SpeedMultiplier;
             
 
             // Wait for the specified interval before checking for updates again
