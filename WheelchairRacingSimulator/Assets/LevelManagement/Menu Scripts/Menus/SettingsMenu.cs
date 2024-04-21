@@ -39,23 +39,52 @@ namespace LevelManagement
             {
                 dataManager.MasterVolume = volume;
             }
-            volumeMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+
+            if (volume > 0)
+            {
+                volumeMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+            }
+            else
+            {
+                // Set volume to silence if slider is at 0
+                volumeMixer.SetFloat("Master", -80); // Adjust -80 according to your desired silence level
+            }
         }
+
         public void OnMusicVolumeChanged(float volume)
         {
             if (dataManager != null)
             {
                 dataManager.MusicVolume = volume;
             }
-            volumeMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
-        }   
+
+            if (volume > 0)
+            {
+                volumeMixer.SetFloat("Music", Mathf.Log10(volume) * 20);
+            }
+            else
+            {
+                // Set volume to silence if slider is at 0
+                volumeMixer.SetFloat("Music", -80); // Adjust -80 according to your desired silence level
+            }
+        }
+
         public void OnSFXVolumeChanged(float volume)
         {
             if (dataManager != null)
             {
                 dataManager.SFXVolume = volume;
             }
-            volumeMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+
+            if (volume > 0)
+            {
+                volumeMixer.SetFloat("SFX", Mathf.Log10(volume) * 20);
+            }
+            else
+            {
+                // Set volume to silence if slider is at 0
+                volumeMixer.SetFloat("SFX", -80); // Adjust -80 according to your desired silence level
+            }
         }
 
         public override void OnBackPressed()

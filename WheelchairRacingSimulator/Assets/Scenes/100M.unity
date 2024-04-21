@@ -569,6 +569,11 @@ PrefabInstance:
       propertyPath: loadedTimeText
       value: 
       objectReference: {fileID: 995380005}
+    - target: {fileID: 6386094308814593481, guid: 2a752118ba9dd1e41a885e32dc735e0c,
+        type: 3}
+      propertyPath: countdownDuration
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6386094308814593482, guid: 2a752118ba9dd1e41a885e32dc735e0c,
         type: 3}
       propertyPath: m_Name
