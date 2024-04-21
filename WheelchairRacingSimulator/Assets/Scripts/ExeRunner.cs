@@ -8,6 +8,7 @@ public class ExeRunner : MonoBehaviour
 {
     private Process BleakExe;
     private string lastSceneName;
+    private bool exeStarted;
 
     void Start()
     {
@@ -30,6 +31,7 @@ public class ExeRunner : MonoBehaviour
         if (lastSceneName != currentSceneName)
         {
             lastSceneName = currentSceneName;
+            exeStarted = false; // Reset the flag when scene changes
             RunOrKillExe();
         }
     }
@@ -40,14 +42,13 @@ public class ExeRunner : MonoBehaviour
         {
             UnityEngine.Debug.Log("EXE Killed");
             KillExe();
+            exeStarted = false;
         }
-        else if (lastSceneName == "100M" || lastSceneName == "400M")
+        else if ((lastSceneName == "100M" || lastSceneName == "400M") && !exeStarted)
         {
-            if (BleakExe == null || BleakExe.HasExited)
-            {
-                UnityEngine.Debug.Log("EXE Started");
-                RunExe();
-            }
+            UnityEngine.Debug.Log("EXE Started");
+            RunExe();
+            exeStarted = true; // Set the flag indicating the executable has been started
         }
     }
 
@@ -57,7 +58,6 @@ public class ExeRunner : MonoBehaviour
         BleakExe.StartInfo.FileName = "sensor.exe";
         BleakExe.StartInfo.WorkingDirectory = Application.dataPath;
         BleakExe.Start();
-        UnityEngine.Debug.Log("EXE Started");
     }
 
     public void KillExe()
