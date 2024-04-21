@@ -7,42 +7,66 @@ using UnityEngine.SceneManagement;
 public class ExeRunner : MonoBehaviour
 {
     private Process BleakExe;
+    private string lastSceneName;
 
-
-    public void Awake()
+    void Start()
     {
-        UnityEngine.Debug.Log("EXE");   
-    }
-    public void Start()
-    {
-        RunExe();
+        // Register the scene loaded event handler
+        DontDestroyOnLoad(this.gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        lastSceneName = SceneManager.GetActiveScene().name;
+        RunOrKillExe();
     }
 
     private void OnDestroy()
     {
-        UnityEngine.Debug.Log("Killing EXE");
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         KillExe();
     }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        string currentSceneName = scene.name;
+        if (lastSceneName != currentSceneName)
+        {
+            lastSceneName = currentSceneName;
+            RunOrKillExe();
+        }
+    }
+
+    void RunOrKillExe()
+    {
+        if (lastSceneName == "MainMenu")
+        {
+            UnityEngine.Debug.Log("EXE Killed");
+            KillExe();
+        }
+        else if (lastSceneName == "100M" || lastSceneName == "400M")
+        {
+            if (BleakExe == null || BleakExe.HasExited)
+            {
+                UnityEngine.Debug.Log("EXE Started");
+                RunExe();
+            }
+        }
+    }
 
     public void RunExe()
     {
-        if (BleakExe != null)
-        {
-            UnityEngine.Debug.Log("Exe already running");
-            return;
-        }
-        else
-        {
-            BleakExe = new Process();
-            BleakExe.StartInfo.FileName = "sensor.exe";
-            BleakExe.StartInfo.WorkingDirectory = Application.dataPath;
-            BleakExe.Start();
-        }
+        BleakExe = new Process();
+        BleakExe.StartInfo.FileName = "sensor.exe";
+        BleakExe.StartInfo.WorkingDirectory = Application.dataPath;
+        BleakExe.Start();
+        UnityEngine.Debug.Log("EXE Started");
     }
+
     public void KillExe()
     {
-        UnityEngine.Debug.Log("EXE KILLED");
-        BleakExe?.Kill();
+        if (BleakExe != null && !BleakExe.HasExited)
+        {
+            BleakExe.Kill();
+            BleakExe.WaitForExit(); // Ensure the process is killed before proceeding
+            UnityEngine.Debug.Log("EXE Killed");
+        }
     }
 }
