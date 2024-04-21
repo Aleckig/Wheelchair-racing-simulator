@@ -31,7 +31,8 @@ public class ExeRunner : MonoBehaviour
         if (lastSceneName != currentSceneName)
         {
             lastSceneName = currentSceneName;
-            exeStarted = false; // Reset the flag when scene changes
+           // exeStarted = false; // Reset the flag when scene changes
+            
             RunOrKillExe();
         }
     }
@@ -40,9 +41,15 @@ public class ExeRunner : MonoBehaviour
     {
         if (lastSceneName == "MainMenu")
         {
+            if(exeStarted == true)
+            {
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+            }
+            //SceneManager.sceneLoaded -= OnSceneLoaded;
             UnityEngine.Debug.Log("EXE Killed");
             KillExe();
             exeStarted = false;
+            
         }
         else if ((lastSceneName == "100M" || lastSceneName == "400M") && !exeStarted)
         {
