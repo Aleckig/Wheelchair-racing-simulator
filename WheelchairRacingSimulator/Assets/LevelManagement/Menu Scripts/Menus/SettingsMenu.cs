@@ -104,8 +104,6 @@ namespace LevelManagement
             }
             dataManager.Load();
             
-                
-            
             masterVolumeSlider.value = dataManager.MasterVolume;
             musicVolumeSlider.value = dataManager.MusicVolume;
             sfxVolumeSlider.value = dataManager.SFXVolume;

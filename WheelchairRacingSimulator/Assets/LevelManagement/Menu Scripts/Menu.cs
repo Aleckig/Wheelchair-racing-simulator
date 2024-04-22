@@ -67,7 +67,7 @@ namespace LevelManagement
             else
             {
                 // Log an error if MenuManager is not found
-                //Debug.LogError("Menu Manager not found in the scene.");
+                Debug.LogError("Menu Manager not found in the scene.");
             }
         }
     }
