@@ -14,50 +14,56 @@ public class ExeRunner : MonoBehaviour
     {
         // Register the scene loaded event handler
         DontDestroyOnLoad(this.gameObject);
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        lastSceneName = SceneManager.GetActiveScene().name;
-        RunOrKillExe();
+        //SceneManager.sceneLoaded += OnSceneLoaded;
+        //lastSceneName = SceneManager.GetActiveScene().name;
+       
+        //RunOrKillExe();
+    }
+
+    private void Awake()
+    {
+        //RunExe();
     }
 
     private void OnDestroy()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
         KillExe();
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        string currentSceneName = scene.name;
-        if (lastSceneName != currentSceneName)
-        {
-            lastSceneName = currentSceneName;
-           // exeStarted = false; // Reset the flag when scene changes
-            
-            RunOrKillExe();
-        }
-    }
+   //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+   //{
+   //    string currentSceneName = scene.name;
+   //    if (lastSceneName != currentSceneName)
+   //    {
+   //        lastSceneName = currentSceneName;
+   //       // exeStarted = false; // Reset the flag when scene changes
+   //        
+   //        RunOrKillExe();
+   //    }
+   //}
 
-    void RunOrKillExe()
-    {
-        if (lastSceneName == "MainMenu")
-        {
-            if(exeStarted == true)
-            {
-                SceneManager.sceneLoaded -= OnSceneLoaded;
-            }
-            //SceneManager.sceneLoaded -= OnSceneLoaded;
-            UnityEngine.Debug.Log("EXE Killed");
-            KillExe();
-            exeStarted = false;
-            
-        }
-        else if ((lastSceneName == "100M" || lastSceneName == "400M") && !exeStarted)
-        {
-            UnityEngine.Debug.Log("EXE Started");
-            RunExe();
-            exeStarted = true; // Set the flag indicating the executable has been started
-        }
-    }
+   //void RunOrKillExe()
+   //{
+   //    if (lastSceneName == "MainMenu")
+   //    {
+   //        if(exeStarted == true)
+   //        {
+   //            SceneManager.sceneLoaded -= OnSceneLoaded;
+   //        }
+   //        //SceneManager.sceneLoaded -= OnSceneLoaded;
+   //        UnityEngine.Debug.Log("EXE Killed");
+   //        KillExe();
+   //        exeStarted = false;
+   //        
+   //    }
+   //    else if ((lastSceneName == "100M" || lastSceneName == "400M") && !exeStarted)
+   //    {
+   //        UnityEngine.Debug.Log("EXE Started");
+   //        RunExe();
+   //        exeStarted = true; // Set the flag indicating the executable has been started
+   //    }
+   //}
 
     public void RunExe()
     {
@@ -69,11 +75,11 @@ public class ExeRunner : MonoBehaviour
 
     public void KillExe()
     {
-        if (BleakExe != null && !BleakExe.HasExited)
-        {
+        
+        
             BleakExe.Kill();
-            BleakExe.WaitForExit(); // Ensure the process is killed before proceeding
+            //BleakExe.WaitForExit(); // Ensure the process is killed before proceeding
             UnityEngine.Debug.Log("EXE Killed");
-        }
+        
     }
 }
