@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ExeRunner : MonoBehaviour
 {
+    private static ExeRunner instance;
     private Process BleakExe;
     public string applicationName = "sensor";
 
@@ -16,6 +17,17 @@ public class ExeRunner : MonoBehaviour
 
     private void Awake()
     {
+        // Singleton pattern to ensure only one instance of ExeRunner exists
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
         //we are not running exe on start because the sensor is so fragile and easily bugs out. Wheel needs to be turned after exe start to wake up the sensor. If its rotated before the start there is a possibility that the sensor freezes.
         //RunExe();
     }
@@ -44,13 +56,6 @@ public class ExeRunner : MonoBehaviour
         {
             // Close the process
             process.Kill();
-        }
-        
-        
-       //BleakExe.Kill();
-       //   
-       ////BleakExe.WaitForExit(); // Ensure the process is killed before proceeding
-       //UnityEngine.Debug.Log("EXE Killed");
-       
+        }        
     }
 }

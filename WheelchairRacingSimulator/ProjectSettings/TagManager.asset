@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - EXE
+  - Speed
+  - Slider
+  - Canvas
   layers:
   - Default
   - TransparentFX
