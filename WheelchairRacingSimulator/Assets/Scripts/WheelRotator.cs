@@ -14,7 +14,7 @@ public class WheelRotator : MonoBehaviour
         // Iterate through each wheel
         for (int i = 0; i < wheels.Length; i++)
         {
-            // Calculate rotation speed based on wheel diameter and speed multiplier
+            // Calculate rotation speed based on wheel diameter and speed multiplier. CALULATION ARE NOT WORKING RIGHT. TO GET WHEEL TURNING THE RIGHT SPEED MULTIPLIER NEEDS TO BE 2000!!
             float rotationSpeed = (speedUpdater.speed / (Mathf.PI * wheelDiameters[i])) * speedMultiplier;
 
             // Rotate the wheel

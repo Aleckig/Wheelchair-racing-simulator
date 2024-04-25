@@ -33,7 +33,7 @@ public class SpeedUpdater : MonoBehaviour
             // Access speed data
             Debug.Log("Speed: " + speedData.speed);
 
-            // Get speed from json and multiply to get m/s
+            // Get speed from json and make it a variable for TestPathFollower to use. TestPathFollower moves the player in the scene with this data.
             speed = speedData.speed;
             
 
