@@ -485,6 +485,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a752118ba9dd1e41a885e32dc735e0c, type: 3}
+--- !u!114 &502057781 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6386094308814593481, guid: 2a752118ba9dd1e41a885e32dc735e0c,
+    type: 3}
+  m_PrefabInstance: {fileID: 502057780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84000078d1d101444afb1b9d8036637b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &597267685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1067,13 +1079,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7706016918578621894, guid: bb9e19da95f1a3c4ebfc567489e5f821,
         type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 502057781}
+    - target: {fileID: 7706016918578621894, guid: bb9e19da95f1a3c4ebfc567489e5f821,
+        type: 3}
       propertyPath: speedUpdater
       value: 
       objectReference: {fileID: 1015895904}
     - target: {fileID: 7706016918578621894, guid: bb9e19da95f1a3c4ebfc567489e5f821,
         type: 3}
       propertyPath: speedMultiplier
-      value: 7.2
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7706016919589433908, guid: bb9e19da95f1a3c4ebfc567489e5f821,
         type: 3}

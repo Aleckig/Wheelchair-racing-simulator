@@ -8,11 +8,8 @@ public class CanvasHider : MonoBehaviour
     public static CanvasHider instance;
     private GameObject canvas;
 
-    // Start is called before the first frame update
-
     void Awake()
     {
-        
         // Singleton pattern
         if (instance == null)
         {
@@ -25,11 +22,10 @@ public class CanvasHider : MonoBehaviour
         }
     }
 
-
     void Start()
     {
-        canvas = this.gameObject;
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        canvas = gameObject; // Assign the canvas GameObject to the variable
+        SceneManager.sceneLoaded += OnSceneLoaded; // Subscribe to the sceneLoaded event
     }
 
     void OnEnable()
@@ -46,11 +42,25 @@ public class CanvasHider : MonoBehaviour
     {
         if (scene.name == "MainMenu")
         {
-            canvas.SetActive(true);
+            if (canvas != null)
+            {
+                canvas.SetActive(true); // Ensure canvas is not null before accessing it
+            }
+            else
+            {
+                Debug.LogWarning("Canvas is null when trying to activate it.");
+            }
         }
         else
         {
-            canvas.SetActive(false);
+            if (canvas != null)
+            {
+                canvas.SetActive(false); // Ensure canvas is not null before accessing it
+            }
+            else
+            {
+                Debug.LogWarning("Canvas is null when trying to deactivate it.");
+            }
         }
     }
 }

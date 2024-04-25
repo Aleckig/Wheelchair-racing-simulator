@@ -16,7 +16,7 @@ public class TestPathFollower : MonoBehaviour
     private void Start()
     {
         lastPosition = transform.position;
-        GameObject gameObject = GameObject.FindGameObjectWithTag("Slider");
+        GameObject gameObject = GameObject.FindGameObjectWithTag("Speed");
         speedMultiplier = gameObject.GetComponent<SpeedMultiplier>();
     }
 
@@ -25,8 +25,8 @@ public class TestPathFollower : MonoBehaviour
         
         if (GameManager.Instance != null && GameManager.Instance.IsCountdownFinished)
         {
-
-            speedM = speedMultiplier.speedMultiplier;
+            speed = speedUpdater.speed;
+            speedM =  speedMultiplier.speedMultiplier;
             // Update the position and rotation on the path
             distanceTravelled += speed * speedM * Time.deltaTime;
 
