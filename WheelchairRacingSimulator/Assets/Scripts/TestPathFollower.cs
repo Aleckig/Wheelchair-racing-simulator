@@ -1,9 +1,10 @@
 using UnityEngine;
 using PathCreation;
-
+using WheelchairGame;
 public class TestPathFollower : MonoBehaviour
 {
     public PathCreator pathCreator;
+    public GameManager gameManager; // Reference to the GameManager
     public float speed = 0;
     private float distanceTravelled;
     private Vector3 lastPosition;
@@ -17,19 +18,21 @@ public class TestPathFollower : MonoBehaviour
 
     private void Update()
     {
-        speed = speedUpdater.speed;
-        // Calculate the distance moved in this frame
-        float distanceThisFrame = Vector3.Distance(transform.position, lastPosition);
+        
+        if (GameManager.Instance != null && GameManager.Instance.IsCountdownFinished)
+        {
+            
 
-        // Update the position and rotation on the path
-        distanceTravelled += speed * speedMultiplier * Time.deltaTime;
+            // Update the position and rotation on the path
+            distanceTravelled += speed * speedMultiplier * Time.deltaTime;
 
-        transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled);
-        transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled);
+            transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled);
+            transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled);
 
-
-        // Set the last position to the current position for the next frame
-        lastPosition = transform.position;
+            // Set the last position to the current position for the next frame
+            lastPosition = transform.position;
+        }
+        
 
      
     }

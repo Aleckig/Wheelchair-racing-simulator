@@ -24,6 +24,7 @@ namespace WheelchairGame
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private TextMeshProUGUI savedTimeText; // UI element for saved time
         [SerializeField] private TextMeshProUGUI loadedTimeText;
+        public bool IsCountdownFinished => isCountdownFinished;
 
         
         
@@ -66,7 +67,7 @@ namespace WheelchairGame
 
         private void Start()
         {
-            //testMovement.enabled = false;
+            
             StartCoroutine(CountdownRoutine());
 
             LoadTopTimes();
@@ -90,7 +91,7 @@ namespace WheelchairGame
             countdownText.gameObject.SetActive(false);
 
             isCountdownFinished = true;
-            //testMovement.enabled = true;
+            
 
             StartCoroutine(TimerRoutine());
         }
