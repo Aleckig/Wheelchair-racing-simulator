@@ -7,79 +7,50 @@ using UnityEngine.SceneManagement;
 public class ExeRunner : MonoBehaviour
 {
     private Process BleakExe;
-    private string lastSceneName;
-    private bool exeStarted;
+    public string applicationName = "sensor";
 
     void Start()
     {
-        // Register the scene loaded event handler
         DontDestroyOnLoad(this.gameObject);
-        //SceneManager.sceneLoaded += OnSceneLoaded;
-        //lastSceneName = SceneManager.GetActiveScene().name;
-       
-        //RunOrKillExe();
     }
 
     private void Awake()
     {
+        //we are not running exe on start because the sensor is so fragile and easily bugs out. Wheel needs to be turned after exe start to wake up the sensor. If its rotated before the start there is a possibility that the sensor freezes.
         //RunExe();
     }
 
     private void OnDestroy()
     {
-        //SceneManager.sceneLoaded -= OnSceneLoaded;
+        // On destroy makes sure that sensor exe doesn't stay on even if the game has been stopped
         KillExe();
     }
-
-   //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-   //{
-   //    string currentSceneName = scene.name;
-   //    if (lastSceneName != currentSceneName)
-   //    {
-   //        lastSceneName = currentSceneName;
-   //       // exeStarted = false; // Reset the flag when scene changes
-   //        
-   //        RunOrKillExe();
-   //    }
-   //}
-
-   //void RunOrKillExe()
-   //{
-   //    if (lastSceneName == "MainMenu")
-   //    {
-   //        if(exeStarted == true)
-   //        {
-   //            SceneManager.sceneLoaded -= OnSceneLoaded;
-   //        }
-   //        //SceneManager.sceneLoaded -= OnSceneLoaded;
-   //        UnityEngine.Debug.Log("EXE Killed");
-   //        KillExe();
-   //        exeStarted = false;
-   //        
-   //    }
-   //    else if ((lastSceneName == "100M" || lastSceneName == "400M") && !exeStarted)
-   //    {
-   //        UnityEngine.Debug.Log("EXE Started");
-   //        RunExe();
-   //        exeStarted = true; // Set the flag indicating the executable has been started
-   //    }
-   //}
-
     public void RunExe()
     {
-        BleakExe = new Process();
-        BleakExe.StartInfo.FileName = "sensor.exe";
-        BleakExe.StartInfo.WorkingDirectory = Application.dataPath;
-        BleakExe.Start();
+        
+            // Runs sensor.exe in game data path. sensor.exe needs to be copied there after build to get it working. sensor.exe will create speed.json when launched the first time.
+            BleakExe = new Process();
+            BleakExe.StartInfo.FileName = "sensor.exe";
+            BleakExe.StartInfo.WorkingDirectory = Application.dataPath;
+            BleakExe.Start();
+     
     }
-
     public void KillExe()
     {
+        //Find all sensor processes and kill them
+        Process[] processes = Process.GetProcessesByName(applicationName);
+
+        foreach (Process process in processes)
+        {
+            // Close the process
+            process.Kill();
+        }
         
         
-            BleakExe.Kill();
-            //BleakExe.WaitForExit(); // Ensure the process is killed before proceeding
-            UnityEngine.Debug.Log("EXE Killed");
-        
+       //BleakExe.Kill();
+       //   
+       ////BleakExe.WaitForExit(); // Ensure the process is killed before proceeding
+       //UnityEngine.Debug.Log("EXE Killed");
+       
     }
 }
